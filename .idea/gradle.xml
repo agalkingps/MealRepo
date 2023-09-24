@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/login-flow" />
+            <option value="$PROJECT_DIR$/order-flow" />
             <option value="$PROJECT_DIR$/repo" />
           </set>
         </option>

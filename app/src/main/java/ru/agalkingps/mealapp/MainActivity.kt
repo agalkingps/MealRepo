@@ -26,14 +26,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import ru.agalkingps.mealapp.data.UserRepositoryInterface
 import ru.agalkingps.mealapp.repo.database.UserDatabase
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import ru.agalkingps.mealapp.ui.theme.MealAppTheme
+import ru.agalkingps.mealapp.login_flow.loginGraph
+import ru.agalkingps.mealapp.order_flow.orderGraph
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userRepository = ServiceLocator.getUserRepository(this.applicationContext)
-        userRepository.justTest()
+//        val userRepository = ServiceLocator.getUserRepository(this.applicationContext)
+//        userRepository.justTest()
 
         setContent {
             MealAppTheme {
@@ -42,14 +47,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
+                    val controller = rememberNavController()
 
-                        Greeting("Android")
-                        PasswordTextField()
+                    NavHost(
+                        navController = controller,
+                        startDestination = "LoginFlow"
+                    ) {
+                        loginGraph(controller)
+                        orderGraph(controller)
                     }
                 }
             }
