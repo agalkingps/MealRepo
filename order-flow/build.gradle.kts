@@ -55,6 +55,8 @@ dependencies {
 
     // Navigation
     implementation(libs.navigation.compose)
+    // View model
+    implementation(libs.lifecycle.viewmodel.compose)
 
     implementation(libs.appcompat)
     implementation(project(":data"))

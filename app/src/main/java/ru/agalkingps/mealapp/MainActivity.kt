@@ -78,16 +78,3 @@ fun GreetingPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PasswordTextField() {
-    var password by rememberSaveable { mutableStateOf("") }
-
-    TextField(
-        value = password,
-        onValueChange = { password = it },
-        label = { Text("Enter password") },
-        visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-    )
-}

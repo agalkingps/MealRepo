@@ -48,6 +48,7 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    implementation(libs.androidx.ui.tooling.preview.android)
     androidTestImplementation(libs.coroutines.test)
     //Compose
     implementation(libs.activity.compose)
@@ -56,6 +57,9 @@ dependencies {
 
     // Navigation
     implementation(libs.navigation.compose)
+    // View model
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.lifecycle.runtime.compose)
 
     implementation(libs.appcompat)
     implementation(project(":data"))
