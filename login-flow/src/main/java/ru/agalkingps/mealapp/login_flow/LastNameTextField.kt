@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -22,31 +21,30 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailTextField() {
+fun LastNameTextField() {
     val context = LocalContext.current
     val viewModel = viewModel { LoginViewModel(context) }
 
     OutlinedTextField(
-        value = viewModel.email,
+        value = viewModel.lastName,
         onValueChange = {
-            viewModel.email = it
-            viewModel.isEmailError = viewModel.verifyEmail()
+            viewModel.lastName = it
+            viewModel.isLastNameError = viewModel.verifyLastName()
         },
-        isError = viewModel.email.isNotEmpty() && viewModel.isEmailError,
+        isError = viewModel.isLastNameError,
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(50),
-        label = { Text(stringResource(R.string.email)) },
-        placeholder = { Text(stringResource(R.string.type_email)) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-//        leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription="personIcon") },
-        trailingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription="emailIcon") },
+        label = { Text(stringResource(R.string.last_name)) },
+        placeholder = { Text(stringResource(R.string.last_name)) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
+        leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription="personIcon") },
         supportingText = {
-            if (viewModel.isEmailError) {
+            if (viewModel.isLastNameError) {
                 Text (
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.email_is_not_valid),
+                    text = stringResource(R.string.can_not_be_empty),
                     color = MaterialTheme.colorScheme.error
                 )
             }

@@ -23,7 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField() {
+fun ConfirmPasswordTextField() {
     val context = LocalContext.current
     val viewModel = viewModel { LoginViewModel(context) }
 
@@ -35,18 +35,19 @@ fun PasswordTextField() {
         painterResource(id = R.drawable.design_ic_visibility_off_x)
 
     OutlinedTextField(
-        value = viewModel.password,
+        value = viewModel.confirmPassword,
         onValueChange = {
-                viewModel.password = it
-                viewModel.isPasswordError = viewModel.verifyPassword()
+                viewModel.confirmPassword = it
+                viewModel.passwordMismatched = viewModel.confirmPassword()
         },
-        isError = viewModel.isPasswordError,
+        isError = viewModel.passwordMismatched,
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(50),
-        label = { Text(stringResource(R.string.password)) },
-        placeholder = { Text(stringResource(R.string.type_password)) },
+        label = { Text(stringResource(R.string.confirm_password)) },
+
+        placeholder = { Text(stringResource(R.string.confirm_password)) },
         trailingIcon = {
             IconButton(onClick = {
                 passwordVisibility = !passwordVisibility
@@ -58,14 +59,14 @@ fun PasswordTextField() {
             }
         },
         supportingText = {
-            if (viewModel.isPasswordError) {
+            if (viewModel.passwordMismatched) {
                 Text (
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.password_is_not_valid),
+                    text = stringResource(R.string.passwords_mismatched),
                     color = MaterialTheme.colorScheme.error
                 )
             }
-       },
+        },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password
         ),

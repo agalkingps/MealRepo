@@ -18,4 +18,5 @@
 <string name="password_is_not_valid">Password must contain at least 8 characters</string>
 <string name="passwords_mismatched">Passwords are not matched</string>
 <string name="no_account">Do not have account?</string>
+<string name="invalid_credentials">Invalid credentials</string>
 </resources>

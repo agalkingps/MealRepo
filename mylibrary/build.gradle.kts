@@ -2,11 +2,10 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinKsp)
 }
 
 android {
-    namespace = "ru.agalkingps.mealapp.login_flow"
+    namespace = "ru.agalkingps.mylibrary"
     compileSdk = 34
 
     defaultConfig {
@@ -29,41 +28,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
 }
 
-
 dependencies {
 
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    // Coroutines
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-    implementation(libs.androidx.ui.tooling.preview.android)
-    implementation(project(":services"))
-    androidTestImplementation(libs.coroutines.test)
-    //Compose
-    implementation(libs.activity.compose)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.material3)
-
-    // Navigation
-    implementation(libs.navigation.compose)
-    // View model
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.lifecycle.runtime.compose)
-
     implementation(libs.appcompat)
-    implementation(project(":data"))
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
