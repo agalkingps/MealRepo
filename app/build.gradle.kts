@@ -66,6 +66,7 @@ dependencies {
     implementation(project(":repo"))
     implementation(project(":login-flow"))
     implementation(project(":order-flow"))
+    implementation(project(":services"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

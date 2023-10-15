@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.agalkingps.mealapp.data.model.User
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,13 +38,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun SignInScreen(
     onSignInDone: () -> Unit
 ) {
-    val onClickSignInButton : () -> Unit = {
-        onSignInDone()
-    }
     val context = LocalContext.current
     val viewModel = viewModel { LoginViewModel(context) }
 
     val invalidCredentials = stringResource(R.string.invalid_credentials)
+    val accountExists = stringResource(R.string.account_exists)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,19 +73,24 @@ fun SignInScreen(
                 .fillMaxWidth(),
             shape = RoundedCornerShape(50),
             onClick = {
-                viewModel.currentUser = viewModel.signInNewUser()
-                if (viewModel.currentUser != null) {
-                    onSignInDone()
-                }
-                else {
-                    Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
-                }
+                viewModel.signInNewUser()
             },
             enabled = !viewModel.verifyFirstName() && !viewModel.verifyLastName() &&
                 !viewModel.verifyEmail() && !viewModel.verifyPassword() && !viewModel.confirmPassword()
         ) {
             Text(text = stringResource(R.string.sign_in))
         }
+
+        if (viewModel.signInCompletion) {
+            viewModel.signInCompletion = false
+            if (viewModel.currentUser == null) {
+                Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
+            }
+            else{
+                onSignInDone()
+            }
+        }
+
 
     }
 }

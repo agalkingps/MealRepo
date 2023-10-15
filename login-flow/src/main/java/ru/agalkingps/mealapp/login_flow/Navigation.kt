@@ -1,16 +1,21 @@
 package ru.agalkingps.mealapp.login_flow
 
+import android.content.Context
+import android.content.Intent
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import ru.agalkingps.mealapp.order_flow.OrderActivity
 
-fun NavGraphBuilder.loginGraph(navController: NavController) {
+fun NavGraphBuilder.loginGraph(navController: NavController, context: Context) {
     navigation(startDestination = "loginScreen", route = "loginFlow") {
         composable(route = "loginScreen") {
             LoginScreen(
                 onLoginDone = {
-                    navController.navigate("profileScreen")
+                    context.startActivity(Intent(context, OrderActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+//                    navController.navigate("profileScreen")
                 },
                 onSignInStart = {
                     navController.navigate("signInScreen")
@@ -20,7 +25,9 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
         composable(route = "signInScreen") {
             SignInScreen(
                 onSignInDone = {
-                    navController.navigate("profileScreen")
+                    context.startActivity(Intent(context, OrderActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+//                    navController.navigate("profileScreen")
                 }
             )
         }

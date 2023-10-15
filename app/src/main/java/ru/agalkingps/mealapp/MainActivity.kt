@@ -1,5 +1,6 @@
 package ru.agalkingps.mealapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,18 +29,26 @@ import ru.agalkingps.mealapp.data.UserRepositoryInterface
 import ru.agalkingps.mealapp.repo.database.UserDatabase
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import ru.agalkingps.mealapp.login_flow.LoginActivity
 import ru.agalkingps.mealapp.ui.theme.MealAppTheme
 import ru.agalkingps.mealapp.login_flow.loginGraph
+import ru.agalkingps.mealapp.order_flow.OrderActivity
 import ru.agalkingps.mealapp.order_flow.orderGraph
+import ru.agalkingps.mealapp.services.ServiceLocator
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        applicationContext.startActivity(
+            Intent(applicationContext, LoginActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+
 //        val userRepository = ServiceLocator.getUserRepository(this.applicationContext)
 //        userRepository.justTest()
-
+/*
         setContent {
             MealAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -53,12 +62,13 @@ class MainActivity : ComponentActivity() {
                         navController = controller,
                         startDestination = "LoginFlow"
                     ) {
-                        loginGraph(controller)
-                        orderGraph(controller)
+                        loginGraph(controller, getApplicationContext())
+                        orderGraph(controller, getApplicationContext())
                     }
                 }
             }
         }
+        */
     }
 }
 

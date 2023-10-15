@@ -1,3 +1,5 @@
 <resources>
     <string name="title_activity_order">OrderActivity</string>
+    <string name="dialog_title">Exit App</string>
+    <string name="dialog_message">Are you sure you want to exit?</string>
 </resources>

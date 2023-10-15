@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.agalkingps.mealapp.data.model.User
@@ -31,7 +32,11 @@ class LoginViewModel(context: Context)  : ViewModel() {
     var lastName by mutableStateOf("")
     var isLastNameError by mutableStateOf(false)
 
+    var loginCompletion by mutableStateOf(false)
+    var signInCompletion  by mutableStateOf(false)
+
     var currentUser : User? = null
+
 
     fun verifyPassword(): Boolean {
         return (password.length < 8)
@@ -58,37 +63,35 @@ class LoginViewModel(context: Context)  : ViewModel() {
         return (lastName.isEmpty())
     }
 
-    fun getUserByEmail(email: String): User? {
-        var user : User? = null
+    fun loginUser(email: String) {
         try {
             viewModelScope.launch(Dispatchers.IO) {
-               user = userRepository.getUserByEmail(email)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return user
-    }
-
-    fun signInNewUser() : User? {
-        var user : User? = null
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
-                user = userRepository.getUserByEmail(email)
-                if (user != null) {
-                    currentUser = null
-                } else {
-                    user = User(0, firstName, lastName, email, password, 0.0, null)
-                    val newRowId: Long = userRepository.addUser(user!!)
-                    if (newRowId.toInt() == -1) {
-                        user = null
-                    }
+                currentUser = userRepository.getUserByEmail(email)
+                withContext(Dispatchers.Main) {
+                    loginCompletion = true
                 }
             }
         } catch (e: Exception) {
             currentUser = null
             e.printStackTrace()
         }
-        return user
+    }
+
+    fun signInNewUser() {
+        var user : User? = null
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                var user : User? = userRepository.getUserByEmail(email)
+                if (user == null) {
+                    user = User(0, firstName, lastName, email, password, 0.0, null)
+                    val newRowId: Long = userRepository.addUser(user!!)
+                    currentUser = if (newRowId.toInt() == -1) null else user
+                }
+                signInCompletion = true
+            }
+        } catch (e: Exception) {
+            currentUser = null
+            e.printStackTrace()
+        }
     }
 }

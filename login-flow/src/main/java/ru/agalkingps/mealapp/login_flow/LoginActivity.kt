@@ -1,7 +1,5 @@
-package ru.agalkingps.mealapp.order_flow
+package ru.agalkingps.mealapp.login_flow
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,9 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import ru.agalkingps.mealapp.order_flow.ui.theme.MealAppTheme
+import ru.agalkingps.mealapp.login_flow.ui.theme.MealAppTheme
 
-class OrderActivity : ComponentActivity() {
+class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -27,23 +25,12 @@ class OrderActivity : ComponentActivity() {
 
                     NavHost(
                         navController = controller,
-                        startDestination = "orderFlow"
+                        startDestination = "LoginFlow"
                     ) {
-                        orderGraph(controller, applicationContext)
+                        loginGraph(controller, applicationContext)
                     }
                 }
             }
         }
     }
-    override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage(R.string.dialog_message)
-               .setTitle(R.string.dialog_title)
-               .setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int -> this.finishAffinity(); }
-            .setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }
-        //Creating dialog box
-        val alert = builder.create();
-        alert.show();
-    }
-
 }

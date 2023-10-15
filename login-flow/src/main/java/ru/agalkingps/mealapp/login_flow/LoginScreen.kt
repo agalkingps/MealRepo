@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
@@ -68,15 +70,20 @@ fun LoginScreen(
                 .fillMaxWidth(),
             shape = RoundedCornerShape(50),
             onClick = {
-                viewModel.currentUser = viewModel.getUserByEmail(viewModel.email)
-                if (viewModel.currentUser != null && viewModel.currentUser!!.password == viewModel.password)
-                    onLoginDone
-                else
-                    Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
+                viewModel.loginUser(viewModel.email)
             },
             enabled = !viewModel.verifyEmail() && !viewModel.verifyPassword()
         ) {
             Text(text = stringResource(R.string.login))
+        }
+        if (viewModel.loginCompletion) {
+            viewModel.loginCompletion = false
+            if (viewModel.currentUser == null || viewModel.currentUser!!.password != viewModel.password) {
+                Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
+            }
+            else{
+                onLoginDone()
+            }
         }
     }
 }
