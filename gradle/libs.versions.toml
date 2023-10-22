@@ -13,13 +13,14 @@ material = "1.9.0"
 room = "2.5.2"
 serialization-json = "1.5.1"
 coroutines = "1.6.4"
-constraintlayout = "2.1.4"
 navigation-fragment-ktx = "2.7.1"
 navigation-ui-ktx = "2.7.1"
-navigation = "2.7.3"
+navigation = "2.7.4"
+
+navigation-compose = "2.7.4"
 
 ksp = "1.8.10-1.0.9"
-ui-tooling-preview-android = "1.5.3"
+compose = "1.5.3"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -31,15 +32,19 @@ lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-ru
 lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-ui = { group = "androidx.compose.ui", name = "ui"}
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
+compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "compose"}
+compose-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "compose"}
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -49,9 +54,8 @@ serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serializ
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group ="org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-test = { group ="org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
-androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "ui-tooling-preview-android" }
+androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "compose" }
 
 [bundles]
 room = ["room-ktx", "room-runtime"]
@@ -63,5 +67,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlinKsp  = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
 

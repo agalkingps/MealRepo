@@ -55,15 +55,18 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
     androidTestImplementation(libs.coroutines.test)
     //Compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
-    implementation(libs.material3)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.ui.ui)
+    implementation(libs.ui.graphics)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.material.iconsExtended)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.foundation.layout)
+    implementation(libs.compose.foundation.layout.android)
 
     // Navigation
     implementation(libs.navigation.compose)

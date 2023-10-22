@@ -56,18 +56,18 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(project(":services"))
-    implementation(project(":order-flow"))
     implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
+    implementation(project(":order-flow"))
     androidTestImplementation(libs.coroutines.test)
     //Compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
-    implementation(libs.material3)
+    implementation(libs.compose.material3)
 
     // Navigation
     implementation(libs.navigation.compose)

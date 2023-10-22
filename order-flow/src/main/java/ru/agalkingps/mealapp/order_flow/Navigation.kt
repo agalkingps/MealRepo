@@ -1,26 +1,52 @@
 package ru.agalkingps.mealapp.order_flow
 
-import android.content.Context
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.SetMeal
+import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 
-fun NavGraphBuilder.orderGraph(navController: NavController, context: Context) {
-    navigation(startDestination = "profileScreen", route = "orderFlow") {
-        composable(route = "profileScreen") {
-            ProfileScreen(
-                onOrderStart = {
-                    navController.navigate("orderScreen")
-                }
-            )
+sealed class Destinations(
+    val route: String,
+    val title: String? = null,
+    val icon: ImageVector? = null
+) {
+    object ProfileScreen : Destinations(
+        route = "profile_screen",
+        title = "Profile",
+        icon = Icons.Outlined.Person
+    )
+
+    object SetMealScreen : Destinations(
+        route = "set_meal_screen",
+        title = "Meal",
+        icon = Icons.Outlined.SetMeal
+    )
+
+    object ShoppingCartScreen : Destinations(
+        route = "shopping_cart_screen",
+        title = "Shopping Cart",
+        icon = Icons.Outlined.ShoppingCart
+    )
+
+}
+
+@Composable
+fun NavigationGraph(navController: NavHostController) {
+    NavHost(navController, startDestination = Destinations.SetMealScreen.route) {
+        composable(Destinations.ProfileScreen.route) {
+            ProfileScreen()
         }
-        composable(route = "orderScreen") {
-            OrderScreen(
-                onOrderDone = {
-                    navController.popBackStack()
-                 }
-            )
+        composable(Destinations.SetMealScreen.route) {
+            SetMealScreen()
+        }
+        composable(Destinations.ShoppingCartScreen.route) {
+            ShoppingCartScreen()
         }
     }
 }
+
