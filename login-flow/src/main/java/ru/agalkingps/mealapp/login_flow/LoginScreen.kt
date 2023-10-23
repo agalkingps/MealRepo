@@ -26,7 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LoginScreen(
-    onLoginDone: () -> Unit,
+    onLoginDone: (Int) -> Unit,
     onSignInStart: () -> Unit
 ) {
     val context = LocalContext.current
@@ -82,7 +82,7 @@ fun LoginScreen(
                 Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
             }
             else{
-                onLoginDone()
+                onLoginDone(viewModel.currentUser!!.id)
             }
         }
     }

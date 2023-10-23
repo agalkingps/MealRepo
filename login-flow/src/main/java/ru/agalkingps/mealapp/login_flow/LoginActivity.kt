@@ -3,6 +3,7 @@ package ru.agalkingps.mealapp.login_flow
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -14,6 +15,7 @@ import ru.agalkingps.mealapp.login_flow.ui.theme.MealAppTheme
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             MealAppTheme {
                 // A surface container using the 'background' color from the theme

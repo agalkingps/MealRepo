@@ -36,16 +36,16 @@ sealed class Destinations(
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController) {
+fun NavigationGraph(navController: NavHostController, userId: Int) {
     NavHost(navController, startDestination = Destinations.SetMealScreen.route) {
         composable(Destinations.ProfileScreen.route) {
-            ProfileScreen()
+            ProfileScreen(userId)
         }
         composable(Destinations.SetMealScreen.route) {
             SetMealScreen()
         }
         composable(Destinations.ShoppingCartScreen.route) {
-            ShoppingCartScreen()
+            ShoppingCartScreen(userId)
         }
     }
 }

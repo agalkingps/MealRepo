@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(userId: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -22,7 +22,7 @@ fun ProfileScreen() {
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = "Profile Screen",
+            text = "Profile Screen $userId",
             style = MaterialTheme.typography.titleLarge,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),

@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun ShoppingCartScreen() {
+fun ShoppingCartScreen(userId: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -21,7 +21,7 @@ fun ShoppingCartScreen() {
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = "Shopping Cart Screen",
+            text = "Shopping Cart Screen $userId",
             style = MaterialTheme.typography.titleLarge,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),

@@ -3,6 +3,7 @@ package ru.agalkingps.mealapp.login_flow
 import android.content.Context
 import androidx.annotation.NonNull
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +19,7 @@ import java.util.regex.Pattern
 
 class LoginViewModel(context: Context)  : ViewModel() {
 
-    val userRepository = ru.agalkingps.mealapp.services.ServiceLocator.getUserRepository(context)
+    private val userRepository = ru.agalkingps.mealapp.services.ServiceLocator.getUserRepository(context)
 //        userRepository.justTest()
 
     var password by mutableStateOf("")
@@ -36,7 +37,6 @@ class LoginViewModel(context: Context)  : ViewModel() {
     var signInCompletion  by mutableStateOf(false)
 
     var currentUser : User? = null
-
 
     fun verifyPassword(): Boolean {
         return (password.length < 8)

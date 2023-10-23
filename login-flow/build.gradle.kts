@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.material3)
+    implementation(libs.activity.ktx)
 
     // Navigation
     implementation(libs.navigation.compose)

@@ -55,6 +55,7 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    implementation(project(":services"))
     androidTestImplementation(libs.coroutines.test)
     //Compose
     implementation(libs.activity.compose)
