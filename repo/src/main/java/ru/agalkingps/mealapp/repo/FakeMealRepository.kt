@@ -1,5 +1,6 @@
 package ru.agalkingps.mealapp.repo
 
+import android.widget.Toast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,7 +11,7 @@ class FakeMealRepository  : MealRepositoryInterface {
 
     private lateinit var mealList: List<Meal>
 
-    override suspend fun getAllMeals(): Flow<List<Meal>> = flow {
+    override fun getAllMeals(): Flow<List<Meal>> = flow {
         var list : MutableList<Meal> = mutableListOf()
         mealList.forEach {
             list.add(it)

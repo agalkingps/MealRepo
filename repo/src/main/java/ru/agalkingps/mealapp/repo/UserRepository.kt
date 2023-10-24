@@ -27,7 +27,7 @@ class UserRepository(private val userDao: UserDao) : UserRepositoryInterface {
         return userDao.deleteAllUsers()
     }
 
-    override suspend fun getAllUsers() : Flow<List<User>> {
+    override fun getAllUsers() : Flow<List<User>> {
         return userDao.getAllUsers()
     }
 
