@@ -6,6 +6,8 @@ import androidx.compose.material.icons.outlined.SetMeal
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -37,6 +39,7 @@ sealed class Destinations(
 
 @Composable
 fun NavigationGraph(navController: NavHostController, userId: Int) {
+
     NavHost(navController, startDestination = Destinations.SetMealScreen.route) {
         composable(Destinations.ProfileScreen.route) {
             ProfileScreen(userId)

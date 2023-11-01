@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ru.agalkingps.mealapp.order_flow.ui.theme.MealAppTheme
@@ -21,12 +21,17 @@ class OrderActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val userId: Int =  intent.getIntExtra("UserId", -1)
 
         setContent {
             MealAppTheme {
 
                 val navController: NavHostController = rememberNavController()
+                val currentRoute = navController
+                    .currentBackStackEntryFlow
+                    .collectAsState(initial = navController.currentBackStackEntry)
+                val routeName = currentRoute.value?.destination?.route
 
                 var buttonsVisible = remember { mutableStateOf(true) }
 
@@ -37,7 +42,8 @@ class OrderActivity : ComponentActivity() {
                             state = buttonsVisible,
                             modifier = Modifier
                         )
-                    }) { paddingValues ->
+                    },
+                 ) { paddingValues ->
                     Box(
                         modifier = Modifier.padding(paddingValues)
                     ) {

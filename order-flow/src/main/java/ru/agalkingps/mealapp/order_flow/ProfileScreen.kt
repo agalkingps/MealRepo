@@ -11,10 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun ProfileScreen(userId: Int) {
+fun ProfileScreen(userId : Int) {
+    val context = LocalContext.current
+    val viewModel = viewModel { OrderViewModel(context) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
