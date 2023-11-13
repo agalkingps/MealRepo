@@ -7,11 +7,12 @@ import ru.agalkingps.mealapp.repo.database.FakeMealDatabase
 import ru.agalkingps.mealapp.repo.database.UserDatabase
 
 object ServiceLocator {
-    fun getUserRepository(context : Context) : UserRepositoryInterface {
-        return UserDatabase.getRepository(context)
+    fun getUserRepository() : UserRepositoryInterface {
+        return UserDatabase.getRepository(appContext)
     }
-    fun getMealRepository(context : Context) : MealRepositoryInterface {
-        return  FakeMealDatabase.getRepository(context)
+    fun getMealRepository() : MealRepositoryInterface {
+        return  FakeMealDatabase.getRepository(appContext)
     }
+    lateinit var appContext: Context
 
 }

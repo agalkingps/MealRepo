@@ -17,9 +17,9 @@ import ru.agalkingps.mealapp.data.model.User
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class LoginViewModel(context: Context)  : ViewModel() {
+class LoginViewModel()  : ViewModel() {
 
-    private val userRepository = ru.agalkingps.mealapp.services.ServiceLocator.getUserRepository(context)
+    private val userRepository = ru.agalkingps.mealapp.services.ServiceLocator.getUserRepository()
 //        userRepository.justTest()
 
     var password by mutableStateOf("")

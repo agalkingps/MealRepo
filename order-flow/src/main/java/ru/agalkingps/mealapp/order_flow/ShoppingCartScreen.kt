@@ -1,9 +1,29 @@
 package ru.agalkingps.mealapp.order_flow
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MonetizationOn
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,26 +31,140 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingCartScreen(userId: Int) {
+fun ShoppingCartScreen(
+    userId: Int,
+    onGotoPay: () -> Unit,
+) {
     val context = LocalContext.current
-    val viewModel = viewModel { OrderViewModel(context) }
+    val viewModel: OrderViewModel = viewModel(context as ComponentActivity)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.DarkGray)
-            .wrapContentSize(Alignment.Center)
-    ) {
+    var list = viewModel.orderedMealStateList
+
+    Column {
         Text(
-            text = "Shopping Cart Screen $userId",
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.White,
+            text = stringResource(R.string.shopping_cart) + " - $%.2f".format(viewModel.calcOrderedMealCoast()),
+            style = MaterialTheme.typography.headlineLarge,
+            color = Color.Black,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center,
         )
+        if (list.value.isEmpty()) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
+                Text(
+                    text = stringResource(R.string.make_choice),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+
+                itemsIndexed(list.value) { idx, //row -> MealListItem(row)}
+                                           row ->
+                    Card(
+                        onClick = {
+                            viewModel.toggleOrderedMealSelection(idx)
+                        },
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp, vertical = 8.dp)
+                            .fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 6.dp
+                        ),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        ),
+                        shape = RoundedCornerShape(corner = CornerSize(16.dp)),
+                    ) {
+                        Row {
+                            MealImage(row)
+                            Column(
+                                modifier = Modifier
+                                    .weight(100f)
+                                    .align(Alignment.CenterVertically)
+
+                            ) {
+                                Text(
+                                    text = row.title,
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
+                                Text(
+                                    text = "$${row.price}" + " x ${row.count}",
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
+                            }
+                            if (row.isSelected) {
+                                Icon(
+                                    modifier = Modifier
+                                        .weight(10f)
+                                        .background(Color.White, CircleShape),
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = "Selected",
+                                    tint = Color.Red,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+    if (viewModel.orderedMealSelectedCount.value > 0) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        )
+        {
+            LargeFloatingActionButton(
+                onClick = {
+                    viewModel.removeSelectedOrderedMeal()                },
+                shape = CircleShape,
+                containerColor = Color.Cyan,
+                contentColor = Color.White,
+            ) {
+                Icon(Icons.Filled.Delete,
+                    "Large floating action button",
+                    modifier = Modifier.size(64.dp))            }
+        }
+    }
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.End,
+    )
+    {
+        LargeFloatingActionButton(
+            onClick = {
+                viewModel.orderSelectedMeal()
+                onGotoPay()
+            },
+            shape = CircleShape,
+            containerColor = Color.Red,
+            contentColor = Color.White,
+        ) {
+            Icon(Icons.Filled.MonetizationOn,
+                "Large floating action button",
+                modifier = Modifier.size(64.dp))
+        }
+    }
+
 }

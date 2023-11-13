@@ -23,7 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun LastNameTextField() {
     val context = LocalContext.current
-    val viewModel = viewModel { LoginViewModel(context) }
+    val viewModel = viewModel { LoginViewModel() }
 
     OutlinedTextField(
         value = viewModel.lastName,

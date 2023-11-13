@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ru.agalkingps.mealapp.order_flow.ui.theme.MealAppTheme
@@ -23,33 +25,38 @@ class OrderActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val userId: Int =  intent.getIntExtra("UserId", -1)
+        val vmStoreOwner: ViewModelStoreOwner = this
 
         setContent {
             MealAppTheme {
+                MakeGUI(userId, vmStoreOwner)
+             }
+        }
+    }
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun MakeGUI(userId: Int, vmStoreOwner: ViewModelStoreOwner) {
+        val navController: NavHostController = rememberNavController()
+        val currentRoute = navController
+            .currentBackStackEntryFlow
+            .collectAsState(initial = navController.currentBackStackEntry)
+        val routeName = currentRoute.value?.destination?.route
 
-                val navController: NavHostController = rememberNavController()
-                val currentRoute = navController
-                    .currentBackStackEntryFlow
-                    .collectAsState(initial = navController.currentBackStackEntry)
-                val routeName = currentRoute.value?.destination?.route
+        var buttonsVisible = remember { mutableStateOf(true) }
 
-                var buttonsVisible = remember { mutableStateOf(true) }
-
-                Scaffold(
-                    bottomBar = {
-                        BottomBar(
-                            navController = navController,
-                            state = buttonsVisible,
-                            modifier = Modifier
-                        )
-                    },
-                 ) { paddingValues ->
-                    Box(
-                        modifier = Modifier.padding(paddingValues)
-                    ) {
-                        NavigationGraph(navController = navController, userId)
-                    }
-                }
+        Scaffold(
+            bottomBar = {
+                BottomBar(
+                    navController = navController,
+                    state = buttonsVisible,
+                    modifier = Modifier
+                )
+            },
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier.padding(paddingValues)
+            ) {
+                NavigationGraph(navController = navController, userId)
             }
         }
     }

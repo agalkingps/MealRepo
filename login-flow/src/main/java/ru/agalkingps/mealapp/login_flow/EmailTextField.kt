@@ -24,7 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun EmailTextField() {
     val context = LocalContext.current
-    val viewModel = viewModel { LoginViewModel(context) }
+    val viewModel = viewModel { LoginViewModel() }
 
     OutlinedTextField(
         value = viewModel.email,

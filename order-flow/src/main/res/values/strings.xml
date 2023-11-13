@@ -3,4 +3,5 @@
     <string name="dialog_title">Exit App</string>
     <string name="dialog_message">Are you sure you want to exit?</string>
     <string name="make_choice">Please make your choice</string>
+    <string name="shopping_cart">Shopping Cart</string>
 </resources>

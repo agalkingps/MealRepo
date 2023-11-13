@@ -39,7 +39,7 @@ fun SignInScreen(
     onSignInDone: () -> Unit
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel { LoginViewModel(context) }
+    val viewModel = viewModel { LoginViewModel() }
 
     val invalidCredentials = stringResource(R.string.invalid_credentials)
     val accountExists = stringResource(R.string.account_exists)

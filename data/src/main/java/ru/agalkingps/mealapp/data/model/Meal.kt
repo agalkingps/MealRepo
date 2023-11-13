@@ -10,7 +10,8 @@ data class Meal (
     val price: Double,
     val imageId: Int,
     val source: String = "demo source",
-    var isSelected: Boolean = false
+    var isSelected: Boolean = false,
+    var count: Int = 0
 ) {
     override fun toString() : String {
         return "Meal(${id}, ${title}, ${imageId}, ${price}"

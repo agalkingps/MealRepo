@@ -30,7 +30,7 @@ fun LoginScreen(
     onSignInStart: () -> Unit
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel { LoginViewModel(context) }
+    val viewModel = viewModel { LoginViewModel() }
 
     val invalidCredentials = stringResource(R.string.invalid_credentials)
 

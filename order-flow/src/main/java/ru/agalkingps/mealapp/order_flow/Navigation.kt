@@ -6,8 +6,7 @@ import androidx.compose.material.icons.outlined.SetMeal
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -45,10 +44,30 @@ fun NavigationGraph(navController: NavHostController, userId: Int) {
             ProfileScreen(userId)
         }
         composable(Destinations.SetMealScreen.route) {
-            SetMealScreen()
+            SetMealScreen(
+                onSelectionDone = {
+                    navController.navigate(Destinations.ShoppingCartScreen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
         }
         composable(Destinations.ShoppingCartScreen.route) {
-            ShoppingCartScreen(userId)
+            ShoppingCartScreen(userId,
+                onGotoPay = {
+                    navController.navigate(Destinations.ProfileScreen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
         }
     }
 }

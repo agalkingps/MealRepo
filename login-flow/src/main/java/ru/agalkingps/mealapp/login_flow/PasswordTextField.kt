@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun PasswordTextField() {
     val context = LocalContext.current
-    val viewModel = viewModel { LoginViewModel(context) }
+    val viewModel = viewModel { LoginViewModel() }
 
     var passwordVisibility by remember { mutableStateOf(false) }
 
