@@ -4,4 +4,5 @@
     <string name="dialog_message">Are you sure you want to exit?</string>
     <string name="make_choice">Please make your choice</string>
     <string name="shopping_cart">Shopping Cart</string>
+    <string name="under_construction">The screen is under construction</string>
 </resources>

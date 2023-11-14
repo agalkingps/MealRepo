@@ -44,7 +44,8 @@ fun LoginScreen(
             text = stringResource(R.string.meal_app),
             style = typography.displayMedium,
 
-            modifier = Modifier.fillMaxHeight(0.3f).padding(top = 100.dp)
+            modifier = Modifier
+                .fillMaxHeight(0.25f).padding(top = 75.dp)
         )
         EmailTextField()
         PasswordTextField()
@@ -66,7 +67,7 @@ fun LoginScreen(
         }
         Button(
             modifier = Modifier
-                .padding(top = 108.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(top = 150.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(50),
             onClick = {

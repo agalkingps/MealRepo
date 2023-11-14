@@ -57,8 +57,8 @@ fun SignInScreen(
             style = MaterialTheme.typography.displayMedium,
 
             modifier = Modifier
-                .fillMaxHeight(0.3f)
-                .padding(top = 100.dp)
+                .fillMaxHeight(0.25f)
+                .padding(top = 75.dp)
         )
 
         FirstNameTextField()
@@ -69,7 +69,7 @@ fun SignInScreen(
 
         Button(
             modifier = Modifier
-                .padding(top = 88.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(top = 70.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(50),
             onClick = {

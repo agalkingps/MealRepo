@@ -13,7 +13,7 @@ import ru.agalkingps.mealapp.data.model.Meal
 
 const val tag = "MealFlowLog"
 
-class OrderViewModel()  : ViewModel()  {
+class MealViewModel()  : ViewModel()  {
 
     private val userRepository = ru.agalkingps.mealapp.services.ServiceLocator.getUserRepository()
     private val mealRepository = ru.agalkingps.mealapp.services.ServiceLocator.getMealRepository()

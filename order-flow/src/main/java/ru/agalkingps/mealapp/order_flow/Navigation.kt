@@ -22,8 +22,8 @@ sealed class Destinations(
         icon = Icons.Outlined.Person
     )
 
-    object SetMealScreen : Destinations(
-        route = "set_meal_screen",
+    object SelectMealScreen : Destinations(
+        route = "select_meal_screen",
         title = "Meal",
         icon = Icons.Outlined.SetMeal
     )
@@ -39,12 +39,12 @@ sealed class Destinations(
 @Composable
 fun NavigationGraph(navController: NavHostController, userId: Int) {
 
-    NavHost(navController, startDestination = Destinations.SetMealScreen.route) {
+    NavHost(navController, startDestination = Destinations.SelectMealScreen.route) {
         composable(Destinations.ProfileScreen.route) {
             ProfileScreen(userId)
         }
-        composable(Destinations.SetMealScreen.route) {
-            SetMealScreen(
+        composable(Destinations.SelectMealScreen.route) {
+            SelectMealScreen(
                 onSelectionDone = {
                     navController.navigate(Destinations.ShoppingCartScreen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
