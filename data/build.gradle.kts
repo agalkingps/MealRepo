@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
 //    alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.kotlinKsp)
+    alias(libs.plugins.daggerHilt)
     alias(libs.plugins.serialization)
 }
 
@@ -50,11 +51,6 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-
     // Room
     implementation(libs.bundles.room)
 //    kapt(libs.room.compiler)
@@ -62,4 +58,13 @@ dependencies {
     implementation(libs.gson)
     // Serialization
     implementation(libs.serialization.json)
+    // Hilt
+    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

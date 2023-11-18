@@ -2,6 +2,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+//    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.kotlinKsp)
+    alias(libs.plugins.daggerHilt)
 }
 
 android {
@@ -41,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     packaging {
         resources {
@@ -54,18 +57,26 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
+    // Compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui.ui)
+    implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.compose.material3)
+    implementation(libs.material3)
     // Navigation
     implementation(libs.navigation.compose)
+    // Libs
     implementation(project(":data"))
     implementation(project(":repo"))
     implementation(project(":login-flow"))
     implementation(project(":services"))
+    // Hilt
+    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

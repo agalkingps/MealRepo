@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
 //    alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.kotlinKsp)
+    alias(libs.plugins.daggerHilt)
     alias(libs.plugins.serialization)
 }
 
@@ -51,11 +52,6 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(project(":data"))
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
@@ -64,11 +60,19 @@ dependencies {
 //    kapt(libs.room.compiler)
     ksp(libs.room.compiler)
     implementation(libs.gson)
-
-    androidTestImplementation(libs.room.testing)
-    androidTestImplementation(libs.coroutines.test)
     // Serialization
     implementation(libs.serialization.json)
+    // Libs
+    implementation(project(":data"))
+    // Hilt
+    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
 
-
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.coroutines.test)
 }

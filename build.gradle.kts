@@ -7,6 +7,8 @@ plugins {
 //    alias(libs.plugins.kotlinKapt) apply false
     alias(libs.plugins.kotlinKsp) apply false
     alias(libs.plugins.serialization) apply false
+    alias(libs.plugins.daggerHilt) apply false
+
 }
 true // Needed to make the Suppress annotation work for the plugins block
 

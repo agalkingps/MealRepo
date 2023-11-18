@@ -2,7 +2,9 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+//    alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.kotlinKsp)
+    alias(libs.plugins.daggerHilt)
 }
 
 android {
@@ -36,7 +38,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -52,33 +54,38 @@ android {
 dependencies {
 
     implementation(libs.core.ktx)
+    implementation(libs.appcompat)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.material)
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
-
+    //Compose
     implementation(libs.androidx.ui.tooling.preview.android)
-    implementation(project(":services"))
     implementation(platform(libs.compose.bom))
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(project(":order-flow"))
-    androidTestImplementation(libs.coroutines.test)
-    //Compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.material3)
+    implementation(libs.material3)
     implementation(libs.activity.ktx)
-
     // Navigation
     implementation(libs.navigation.compose)
     // View model
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
-
-    implementation(libs.appcompat)
+    // Libs
+    implementation(project(":order-flow"))
+    implementation(project(":services"))
     implementation(project(":data"))
+    // Hilt
+    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
+
     testImplementation(libs.junit)
+    androidTestImplementation(libs.coroutines.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.compose.bom))

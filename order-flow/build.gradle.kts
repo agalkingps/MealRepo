@@ -2,7 +2,9 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+//    alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.kotlinKsp)
+    alias(libs.plugins.daggerHilt)
 }
 
 android {
@@ -36,7 +38,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -52,30 +54,35 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.appcompat)
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
-    implementation(project(":services"))
     androidTestImplementation(libs.coroutines.test)
     //Compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.material3)
-    implementation(libs.compose.ui.ui)
+    implementation(libs.material3)
+    implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material.iconsExtended)
     implementation(libs.compose.foundation)
     implementation(libs.compose.foundation.layout)
     implementation(libs.compose.foundation.layout.android)
-
     // Navigation
     implementation(libs.navigation.compose)
     // View model
     implementation(libs.lifecycle.viewmodel.compose)
-
-    implementation(libs.appcompat)
+    // Libs
+    implementation(project(":services"))
     implementation(project(":data"))
+    // Hilt
+    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
