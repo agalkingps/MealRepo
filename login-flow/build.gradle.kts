@@ -76,7 +76,6 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     // Libs
     implementation(project(":order-flow"))
-    implementation(project(":services"))
     implementation(project(":data"))
     // Hilt
     implementation(libs.hilt.android)

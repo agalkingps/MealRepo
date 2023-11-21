@@ -75,7 +75,6 @@ dependencies {
     // View model
     implementation(libs.lifecycle.viewmodel.compose)
     // Libs
-    implementation(project(":services"))
     implementation(project(":data"))
     // Hilt
     implementation(libs.hilt.android)

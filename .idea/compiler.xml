@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="1.8">
       <module name="MealApp.feature-login" target="17" />
       <module name="MealApp.mylibrary" target="17" />
+      <module name="MealApp.services" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
