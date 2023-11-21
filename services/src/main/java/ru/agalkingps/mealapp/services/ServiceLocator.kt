@@ -5,7 +5,7 @@ import ru.agalkingps.mealapp.data.UserRepositoryInterface
 import ru.agalkingps.mealapp.data.MealRepositoryInterface
 import ru.agalkingps.mealapp.repo.database.FakeMealDatabase
 import ru.agalkingps.mealapp.repo.database.UserDatabase
-
+/*
 object ServiceLocator {
     fun getUserRepository() : UserRepositoryInterface {
         return UserDatabase.getRepository(appContext)
@@ -16,3 +16,4 @@ object ServiceLocator {
     lateinit var appContext: Context
 
 }
+*/

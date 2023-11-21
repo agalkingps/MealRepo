@@ -1,6 +1,7 @@
 package ru.agalkingps.mealapp.login_flow
 
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,9 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun LoginScreen(
@@ -30,7 +29,7 @@ fun LoginScreen(
     onSignInStart: () -> Unit
 ) {
     val context = LocalContext.current
-    val viewModel = viewModel { LoginViewModel() }
+    val viewModel: LoginViewModel = hiltViewModel(context as ComponentActivity)
 
     val invalidCredentials = stringResource(R.string.invalid_credentials)
 

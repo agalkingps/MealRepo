@@ -1,5 +1,6 @@
 package ru.agalkingps.mealapp.login_flow
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,13 +20,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import ru.agalkingps.mealapp.order_flow.MealViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfirmPasswordTextField() {
+
     val context = LocalContext.current
-    val viewModel = viewModel { LoginViewModel() }
+    val viewModel: LoginViewModel = hiltViewModel(context as ComponentActivity)
 
     var passwordVisibility by remember { mutableStateOf(false) }
 

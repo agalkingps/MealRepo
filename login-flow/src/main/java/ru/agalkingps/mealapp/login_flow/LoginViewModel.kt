@@ -1,26 +1,24 @@
 package ru.agalkingps.mealapp.login_flow
 
-import android.content.Context
-import androidx.annotation.NonNull
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.agalkingps.mealapp.data.UserRepositoryInterface
 import ru.agalkingps.mealapp.data.model.User
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class LoginViewModel()  : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor()  : ViewModel() {
 
-    private val userRepository = ru.agalkingps.mealapp.services.ServiceLocator.getUserRepository()
-//        userRepository.justTest()
+    @Inject lateinit var userRepository: UserRepositoryInterface
 
     var password by mutableStateOf("")
     var isPasswordError by mutableStateOf(false)

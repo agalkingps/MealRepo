@@ -12,7 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.agalkingps.mealapp.data.MealRepositoryInterface
+import ru.agalkingps.mealapp.data.UserRepositoryInterface
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -20,8 +23,9 @@ fun SelectMealScreen(
     onSelectionDone: () -> Unit,
 ) {
     val context = LocalContext.current
-    val viewModel: MealViewModel = viewModel(context as ComponentActivity)
+    val viewModel: MealViewModel = hiltViewModel(context as ComponentActivity)
 
+    viewModel.collectFlowToStateList()
     var list = viewModel.mealStateList
 
     Column {

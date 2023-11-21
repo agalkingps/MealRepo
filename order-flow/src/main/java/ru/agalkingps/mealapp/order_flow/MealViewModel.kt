@@ -7,16 +7,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ru.agalkingps.mealapp.data.MealRepositoryInterface
+import ru.agalkingps.mealapp.data.UserRepositoryInterface
 import ru.agalkingps.mealapp.data.model.Meal
+import javax.inject.Inject
+import javax.inject.Singleton
 
 const val tag = "MealFlowLog"
 
-class MealViewModel()  : ViewModel()  {
+@HiltViewModel
+class MealViewModel @Inject constructor()  : ViewModel()  {
 
-    private val userRepository = ru.agalkingps.mealapp.services.ServiceLocator.getUserRepository()
-    private val mealRepository = ru.agalkingps.mealapp.services.ServiceLocator.getMealRepository()
+    @Inject lateinit var userRepository: UserRepositoryInterface
+    @Inject lateinit var mealRepository: MealRepositoryInterface
 
     var mealStateList : MutableState<SnapshotStateList<Meal>> = mutableStateOf(mutableStateListOf<Meal>())
     var mealSelectedCount : MutableState<Int> = mutableStateOf(0)
@@ -25,13 +32,16 @@ class MealViewModel()  : ViewModel()  {
     var orderedMealSelectedCount : MutableState<Int> = mutableStateOf(0)
 
     private var job: Job? = null
-
-    init {
-        collectFlowToStateList()
+    companion object {
+        var collecting = false
     }
 
-    private fun collectFlowToStateList() {
+    fun collectFlowToStateList() {
+        if (collecting) {
+            return
+        }
         stopCollectFlowToStateList()
+        collecting = true
         mealStateList.value.clear()
         job = viewModelScope.launch {
             mealRepository.getAllMeals().collect { list ->

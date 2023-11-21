@@ -37,11 +37,15 @@ sealed class Destinations(
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController, userId: Int) {
+fun NavigationGraph(
+    navController: NavHostController,
+    userId: Int
+) {
 
     NavHost(navController, startDestination = Destinations.SelectMealScreen.route) {
         composable(Destinations.ProfileScreen.route) {
-            ProfileScreen(userId)
+            ProfileScreen(
+                userId)
         }
         composable(Destinations.SelectMealScreen.route) {
             SelectMealScreen(
@@ -51,7 +55,8 @@ fun NavigationGraph(navController: NavHostController, userId: Int) {
             )
         }
         composable(Destinations.ShoppingCartScreen.route) {
-            ShoppingCartScreen(userId,
+            ShoppingCartScreen(
+                userId,
                 onGotoPay = {
                     navController.switchTabs(Destinations.ProfileScreen.route)
                 }

@@ -71,6 +71,7 @@ dependencies {
     implementation(project(":repo"))
     implementation(project(":login-flow"))
     implementation(project(":services"))
+    implementation(project(":order-flow"))
     // Hilt
     implementation(libs.hilt.android)
 //    kapt(libs.hilt.compiler)

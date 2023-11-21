@@ -1,6 +1,5 @@
 package ru.agalkingps.mealapp.order_flow
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -25,10 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+
 import ru.agalkingps.mealapp.data.model.Meal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,9 +35,6 @@ fun MealCard(
     meal: Meal,
     onClick: () -> Unit,
 ) {
-    val context = LocalContext.current
-    val viewModel: MealViewModel = viewModel(context as ComponentActivity)
-
     Card(
         onClick = {
             onClick()

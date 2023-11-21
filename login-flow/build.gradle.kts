@@ -60,7 +60,7 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
-    //Compose
+    // Compose
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(platform(libs.compose.bom))
     implementation(libs.ui.graphics)
