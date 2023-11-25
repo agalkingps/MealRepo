@@ -20,13 +20,15 @@ import ru.agalkingps.mealapp.data.UserRepositoryInterface
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectMealScreen(
+    userId: Int,
     onSelectionDone: () -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: MealViewModel = hiltViewModel(context as ComponentActivity)
 
-    viewModel.collectFlowToStateList()
+    viewModel.collectMealFlowToStateList()
     var list = viewModel.mealStateList
+    viewModel.fetchUserById(userId)
 
     Column {
         TitleText(
@@ -36,7 +38,7 @@ fun SelectMealScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
         ) {
 
-            itemsIndexed(list.value) { idx, //row -> MealListItem(row)}
+            itemsIndexed(list.value) { idx,
                                        meal ->
                 MealCard(meal,
                     onClick = {

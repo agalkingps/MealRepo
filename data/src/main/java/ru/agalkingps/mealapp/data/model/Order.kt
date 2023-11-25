@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 import java.util.Date
 
 @Entity(tableName = "order_table", // Order Entity represents a table within the database
-        primaryKeys = ["user_id","meal_id","date"],
+        primaryKeys = ["user_id","date"],
         foreignKeys = [ForeignKey(
             entity = User::class,
             childColumns = ["user_id"],
@@ -18,17 +18,17 @@ import java.util.Date
 data class Order (
     @NonNull @ColumnInfo(name = "user_id")
     var userId: Int=0,
-    @NonNull @ColumnInfo(name = "meal_id")
-    var mealId: Int=0,
     @NonNull @ColumnInfo(name = "date")
     var timestamp: Date,
+    @NonNull @ColumnInfo(name = "total")
+    var total: Double,
     @NonNull @ColumnInfo(name = "ordered_meal")
     var orderedMeal : List<OrderedMeal>
 )
 
 @Serializable
-data class OrderedMeal (
+data class OrderedMeal(
     var mealId: Int,
-    val price : Double,
-    val qty : Long
+    val price: Double,
+    val qty: Int
 )

@@ -1,5 +1,7 @@
 package ru.agalkingps.mealapp.order_flow
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.SetMeal
@@ -36,6 +38,7 @@ sealed class Destinations(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
@@ -48,7 +51,7 @@ fun NavigationGraph(
                 userId)
         }
         composable(Destinations.SelectMealScreen.route) {
-            SelectMealScreen(
+            SelectMealScreen(userId,
                 onSelectionDone = {
                     navController.switchTabs(Destinations.ShoppingCartScreen.route)
                 }

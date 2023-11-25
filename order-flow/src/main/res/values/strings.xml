@@ -5,4 +5,6 @@
     <string name="make_choice">Please make your choice</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="under_construction">The screen is under construction</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_payment">Will you pay?</string>
 </resources>

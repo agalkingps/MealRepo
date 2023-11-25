@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.foundation.layout)
     implementation(libs.compose.foundation.layout.android)
+    implementation(libs.compose.livedata)
     // Navigation
     implementation(libs.navigation.compose)
     // View model

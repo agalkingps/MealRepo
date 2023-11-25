@@ -33,7 +33,6 @@ lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 
-
 ui = { group = "androidx.compose.ui", name = "ui"}
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -44,6 +43,7 @@ material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "compose"}
 compose-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "compose"}
+compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref="compose"}
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }

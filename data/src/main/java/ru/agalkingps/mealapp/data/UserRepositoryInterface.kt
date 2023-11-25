@@ -13,6 +13,8 @@ interface UserRepositoryInterface {
     suspend fun getUserById(id: Int): User?
     suspend fun getUserByEmail(email: String): User?
     suspend fun getUserByIdWithOrders(userid: Int): Map<User, List<Order>>
+    suspend fun getOrdersByUserId(userId: Int): Flow<List<Order>>
+
     suspend fun addOrder(user: User, order: Order) : Long
 
     fun justTest() : Unit

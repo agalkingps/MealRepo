@@ -65,12 +65,12 @@ class OrderActivity : ComponentActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+//        super.onBackPressed()
         val builder = AlertDialog.Builder(this)
         builder.setMessage(R.string.dialog_message)
                .setTitle(R.string.dialog_title)
-               .setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int -> this.finishAffinity(); }
-            .setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }
+               .setPositiveButton("Yes") { _, _: Int -> this.finishAffinity(); }
+            .setNegativeButton("Cancel") { _, _: Int -> }
         //Creating dialog box
         val alert = builder.create();
         alert.show();

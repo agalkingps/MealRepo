@@ -19,7 +19,7 @@ import ru.agalkingps.mealapp.repo.UserRepository
 
 @Database(
     entities = [User::class, Order::class],
-    version = 2,                // <- Database version
+    version = 1,                // <- Database version
     exportSchema = true
 )
 @TypeConverters(DateTimeTypeConverters::class,
@@ -40,7 +40,7 @@ abstract class UserDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     UserDatabase::class.java,
-                    "user_database"
+                    "meal_order_database"
                 ).build()
                 INSTANCE = instance
                 // return instance

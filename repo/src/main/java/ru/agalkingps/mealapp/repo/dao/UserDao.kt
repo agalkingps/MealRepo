@@ -36,4 +36,7 @@ interface UserDao {
     @Insert
     suspend fun addOrder(order: Order) : Long
 
+    @Query("SELECT * FROM order_table  WHERE user_id = :userId ORDER BY date DESC")
+    fun getOrdersByUserId(userId: Int): Flow<List<Order>>
+
 }

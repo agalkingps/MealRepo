@@ -40,6 +40,8 @@ class UserRepository(private val userDao: UserDao) : UserRepositoryInterface {
     override suspend fun getUserByIdWithOrders(userId: Int): Map<User, List<Order>>
         = userDao.getUserByIdWithOrders(userId)
 
+    override suspend fun getOrdersByUserId(userId: Int): Flow<List<Order>>
+            = userDao.getOrdersByUserId(userId)
     @Transaction
     override suspend fun addOrder(user: User, order: Order) : Long {
         if (order.orderedMeal.isEmpty())
