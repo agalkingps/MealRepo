@@ -3,10 +3,13 @@ package ru.agalkingps.mealapp.order_flow
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,14 +56,19 @@ fun OrderCard (
         ),
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
     ) {
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             Text(
                 text = simpleDateFormat.format(order.timestamp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Left
             )
+            Spacer(modifier = Modifier.width(40.dp))
             Text(
-                text = " - $%.2f".format(order.total),
+                text = "$%.2f".format(order.total),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center
             )

@@ -2,9 +2,11 @@ package ru.agalkingps.mealapp.order_flow
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +26,7 @@ import ru.agalkingps.mealapp.order_flow.ui.theme.MealAppTheme
 @AndroidEntryPoint
 class OrderActivity : ComponentActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,7 @@ class OrderActivity : ComponentActivity() {
              }
         }
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MakeGUI(userId: Int) {
@@ -45,7 +49,7 @@ class OrderActivity : ComponentActivity() {
             .currentBackStackEntryFlow
             .collectAsState(initial = navController.currentBackStackEntry)
 
-        var buttonsVisible = remember { mutableStateOf(true) }
+        val buttonsVisible = remember { mutableStateOf(true) }
 
         Scaffold(
             bottomBar = {
@@ -72,7 +76,7 @@ class OrderActivity : ComponentActivity() {
                .setPositiveButton("Yes") { _, _: Int -> this.finishAffinity(); }
             .setNegativeButton("Cancel") { _, _: Int -> }
         //Creating dialog box
-        val alert = builder.create();
-        alert.show();
+        val alert = builder.create()
+        alert.show()
     }
 }

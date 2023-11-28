@@ -15,56 +15,92 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+// Material 3 color schemes
+private val mealDarkColorScheme = darkColorScheme(
+    primary = mealDarkPrimary,
+    onPrimary = mealDarkOnPrimary,
+    primaryContainer = mealDarkPrimaryContainer,
+    onPrimaryContainer = mealDarkOnPrimaryContainer,
+    inversePrimary = mealDarkPrimaryInverse,
+    secondary = mealDarkSecondary,
+    onSecondary = mealDarkOnSecondary,
+    secondaryContainer = mealDarkSecondaryContainer,
+    onSecondaryContainer = mealDarkOnSecondaryContainer,
+    tertiary = mealDarkTertiary,
+    onTertiary = mealDarkOnTertiary,
+    tertiaryContainer = mealDarkTertiaryContainer,
+    onTertiaryContainer = mealDarkOnTertiaryContainer,
+    error = mealDarkError,
+    onError = mealDarkOnError,
+    errorContainer = mealDarkErrorContainer,
+    onErrorContainer = mealDarkOnErrorContainer,
+    background = mealDarkBackground,
+    onBackground = mealDarkOnBackground,
+    surface = mealDarkSurface,
+    onSurface = mealDarkOnSurface,
+    inverseSurface = mealDarkInverseSurface,
+    inverseOnSurface = mealDarkInverseOnSurface,
+    surfaceVariant = mealDarkSurfaceVariant,
+    onSurfaceVariant = mealDarkOnSurfaceVariant,
+    outline = mealDarkOutline
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val mealLightColorScheme = lightColorScheme(
+    primary = mealLightPrimary,
+    onPrimary = mealLightOnPrimary,
+    primaryContainer = mealLightPrimaryContainer,
+    onPrimaryContainer = mealLightOnPrimaryContainer,
+    inversePrimary = mealLightPrimaryInverse,
+    secondary = mealLightSecondary,
+    onSecondary = mealLightOnSecondary,
+    secondaryContainer = mealLightSecondaryContainer,
+    onSecondaryContainer = mealLightOnSecondaryContainer,
+    tertiary = mealLightTertiary,
+    onTertiary = mealLightOnTertiary,
+    tertiaryContainer = mealLightTertiaryContainer,
+    onTertiaryContainer = mealLightOnTertiaryContainer,
+    error = mealLightError,
+    onError = mealLightOnError,
+    errorContainer = mealLightErrorContainer,
+    onErrorContainer = mealLightOnErrorContainer,
+    background = mealLightBackground,
+    onBackground = mealLightOnBackground,
+    surface = mealLightSurface,
+    onSurface = mealLightOnSurface,
+    inverseSurface = mealLightInverseSurface,
+    inverseOnSurface = mealLightInverseOnSurface,
+    surfaceVariant = mealLightSurfaceVariant,
+    onSurfaceVariant = mealLightOnSurfaceVariant,
+    outline = mealLightOutline
 )
 
 @Composable
 fun MealAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
+    val mealColorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> mealDarkColorScheme
+        else -> mealLightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = mealColorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+        colorScheme = mealColorScheme,
+        typography = mealTypography,
+        shapes = shapes,
         content = content
     )
 }

@@ -2,6 +2,7 @@ package ru.agalkingps.mealapp.order_flow
 
 import android.content.DialogInterface
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,10 +14,12 @@ import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -35,7 +38,8 @@ fun ShoppingCartScreen(
 
     var list = viewModel.orderedMealStateList
 
-    Column {
+    Column (modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+    ){
         TitleText(
             text = stringResource(R.string.shopping_cart) + " - $%.2f".format(viewModel.calcOrderedMealCoast()),
         )
@@ -46,7 +50,8 @@ fun ShoppingCartScreen(
             return
         }
         LazyColumn(
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
         ) {
 
             itemsIndexed(list.value) { idx, //row -> MealListItem(row)}

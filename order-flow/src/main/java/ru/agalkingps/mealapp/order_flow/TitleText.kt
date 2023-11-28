@@ -28,7 +28,7 @@ fun TitleText(
         Text(
             text = text,
             style = MaterialTheme.typography.headlineLarge,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center
         )
     }
