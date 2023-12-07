@@ -61,7 +61,6 @@ class MealViewModel @Inject constructor()  : ViewModel() {
         if (collectingMeal) {
             return
         }
-        stopCollectMealFlowToStateList()
         collectingMeal = true
         mealStateList.value.clear()
         job = viewModelScope.launch {
@@ -73,8 +72,6 @@ class MealViewModel @Inject constructor()  : ViewModel() {
             }
         }
     }
-
-    private fun stopCollectMealFlowToStateList() = job?.cancel()
 
     fun toggleMealSelection(index: Int) {
         var meal: Meal = mealStateList.value[index].copy()

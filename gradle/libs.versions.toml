@@ -1,6 +1,6 @@
 [versions]
 agp = "8.3.0-alpha07"
-kotlin = "1.9.20"
+kotlin = "1.9.21"
 core-ktx = "1.12.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -12,14 +12,14 @@ appcompat = "1.6.1"
 material = "1.9.0"
 room = "2.5.2"
 serialization-json = "1.5.1"
-coroutines = "1.6.4"
+coroutines = "1.7.3"
 navigation = "2.7.5"
 compose = "1.5.4"
 
 hilt = "2.48.1"
 hilt-lib = "1.1.0"
-ksp = "1.9.0-1.0.12"
-
+ksp = "1.9.21-1.0.15"
+paging_version = "3.2.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -58,10 +58,13 @@ coroutines-test = { group ="org.jetbrains.kotlinx", name = "kotlinx-coroutines-t
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "compose" }
 activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity-compose" }
-
+# Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-lib" }
+# Paging
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging_version" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging_version" }
 
 [bundles]
 room = ["room-ktx", "room-runtime"]

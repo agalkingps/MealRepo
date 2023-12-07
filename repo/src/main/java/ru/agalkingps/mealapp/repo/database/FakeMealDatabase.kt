@@ -17,7 +17,6 @@ class FakeMealDatabase {
             }
             synchronized(this) {
                 val instance = FakeMealRepository()
-                instance.fillMMealList()
                 INSTANCE = instance
                 return instance
             }
