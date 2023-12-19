@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -27,8 +28,9 @@ fun ProfileScreen(
     val context = LocalContext.current
     val viewModel: MealViewModel = hiltViewModel(context as ComponentActivity)
 
-    viewModel.collectOrderFlowToStateList(userId)
-    var list = viewModel.orderStateList
+    LaunchedEffect(viewModel) {
+        viewModel.collectOrderFlowToStateList(userId)
+    }
 
     Column (modifier = Modifier.background(MaterialTheme.colorScheme.surface)
     ){
@@ -48,7 +50,7 @@ fun ProfileScreen(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface)
         ) {
 
-            itemsIndexed(list.value) { idx,
+            itemsIndexed(viewModel.orderStateList.value) { idx,
                                        order ->
                 OrderCard(order,
                     onClick = { }

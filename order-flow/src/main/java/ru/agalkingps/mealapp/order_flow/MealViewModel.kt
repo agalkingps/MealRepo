@@ -1,18 +1,22 @@
 package ru.agalkingps.mealapp.order_flow
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.text.font.FontLoadingStrategy.Companion.Async
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.agalkingps.mealapp.data.MealRepositoryInterface
@@ -21,60 +25,53 @@ import ru.agalkingps.mealapp.data.model.Meal
 import ru.agalkingps.mealapp.data.model.Order
 import ru.agalkingps.mealapp.data.model.OrderedMeal
 import ru.agalkingps.mealapp.data.model.User
-import java.time.LocalDate
 import java.util.Date
 import javax.inject.Inject
 
 const val tag = "MealFlowLog"
+
+private const val ITEMS_PER_PAGE = 10
 
 @HiltViewModel
 class MealViewModel @Inject constructor()  : ViewModel() {
 
     @Inject
     lateinit var userRepository: UserRepositoryInterface
+
     @Inject
     lateinit var mealRepository: MealRepositoryInterface
 
+    @SuppressLint("MutableCollectionMutableState")
     var mealStateList: MutableState<SnapshotStateList<Meal>> =
-        mutableStateOf(mutableStateListOf<Meal>())
-    var mealSelectedCount: MutableState<Int> = mutableStateOf(0)
+        mutableStateOf(mutableStateListOf())
+    var mealSelectedCount: MutableState<Int> = mutableIntStateOf(0)
 
+    @SuppressLint("MutableCollectionMutableState")
     var orderedMealStateList: MutableState<SnapshotStateList<Meal>> =
-        mutableStateOf(mutableStateListOf<Meal>())
-    var orderedMealSelectedCount: MutableState<Int> = mutableStateOf(0)
+        mutableStateOf(mutableStateListOf())
+    var orderedMealSelectedCount: MutableState<Int> = mutableIntStateOf(0)
 
+    @SuppressLint("MutableCollectionMutableState")
     var orderStateList: MutableState<SnapshotStateList<Order>> =
-        mutableStateOf(mutableStateListOf<Order>())
-    var totalState: MutableState<Double> = mutableStateOf(0.0)
+        mutableStateOf(mutableStateListOf())
+    var totalState: MutableState<Double> = mutableDoubleStateOf(0.0)
 
     var userState: MutableState<User?> = mutableStateOf(null)
 
     private var job: Job? = null
     private var job2: Job? = null
 
-    companion object {
-        var collectingMeal = false
-        var collectingOrders = false
-    }
-
     fun collectMealFlowToStateList() {
-        if (collectingMeal) {
-            return
-        }
-        collectingMeal = true
         mealStateList.value.clear()
         job = viewModelScope.launch {
-            mealRepository.getAllMeals().collect { list ->
-                Log.d(tag, "[StateFlow]: Assigning $mealStateList $list to _stateFlow")
-                for (meal in list) {
-                    mealStateList.value.add(meal)
-                }
+            mealRepository.getAllMeals().collect { meals: List<Meal> ->
+                meals.map { meal -> mealStateList.value.add(meal) }
             }
         }
     }
 
     fun toggleMealSelection(index: Int) {
-        var meal: Meal = mealStateList.value[index].copy()
+        val meal: Meal = mealStateList.value[index].copy()
         if (meal.isSelected) {
             meal.isSelected = false
             mealSelectedCount.value--
@@ -87,14 +84,14 @@ class MealViewModel @Inject constructor()  : ViewModel() {
 
     fun putSelectedMealInShoppingCart() {
         for (idx in mealStateList.value.indices) {
-            var meal = mealStateList.value[idx]
+            val meal = mealStateList.value[idx]
             if (meal.isSelected) {
                 toggleMealSelection(idx)
-                var meal1 = meal.copy()
+                val meal1 = meal.copy()
                 meal1.isSelected = false
                 var found = false
                 loop@ for (idx2 in orderedMealStateList.value.indices) {
-                    var meal2 = orderedMealStateList.value[idx2]
+                    val meal2 = orderedMealStateList.value[idx2]
                     if (meal2.id == meal1.id) {
                         meal1.count = meal2.count + 1
                         orderedMealStateList.value[idx2] = meal1
@@ -111,7 +108,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     }
 
     fun toggleOrderedMealSelection(index: Int) {
-        var meal: Meal = orderedMealStateList.value[index].copy()
+        val meal: Meal = orderedMealStateList.value[index].copy()
         if (meal.isSelected) {
             meal.isSelected = false
             orderedMealSelectedCount.value--
@@ -132,7 +129,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
             }
         }
         for (idx in orderedMealStateList.value.indices) {
-            var meal = orderedMealStateList.value[idx]
+            val meal = orderedMealStateList.value[idx]
             if (meal.isSelected && meal.count > 1) {
                 meal.isSelected = false
                 meal.count--
@@ -153,43 +150,63 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     fun orderSelectedMeal(userId: Int, onGotoPay: () -> Unit) {
         job2?.cancel()
         job2 = viewModelScope.launch {
-            var user: User? = userRepository.getUserById(userId) ?: return@launch
-            var mealList: MutableList<OrderedMeal> = mutableListOf()
-            val iterator = orderedMealStateList.value.iterator()
-            var total: Double = 0.0
+            val user: User = userRepository.getUserById(userId) ?: return@launch
+            val mealList: MutableList<OrderedMeal> = mutableListOf()
+            var iterator = orderedMealStateList.value.iterator()
+            var total = 0.0
             for (meal in iterator) {
                 mealList.add(OrderedMeal(meal.id, meal.price, meal.count))
                 total += meal.price * meal.count
-                iterator.remove()
             }
 
-            var order = Order(userId, Date(), total, mealList)
-            userRepository.addOrder(user!!, order)
+            val order = Order(userId, Date(), total, mealList)
+            userRepository.addOrder(user, order)
             onGotoPay()
+
+            iterator = orderedMealStateList.value.iterator()
+            for (meal in iterator) {
+                iterator.remove()
+            }
         }
     }
 
     fun fetchUserById(userId: Int) {
-        val job = viewModelScope.launch {
+        viewModelScope.launch {
             userState.value = userRepository.getUserById(userId)
         }
     }
 
     fun collectOrderFlowToStateList(userId: Int) {
-        if (collectingOrders) {
-            return
-        }
-        collectingOrders = true
         orderStateList.value.clear()
         totalState.value = 0.0
         job = viewModelScope.launch {
-            mealRepository.getAllMeals().collect { list ->
-                userRepository.getOrdersByUserId(userId).collect { list ->
-                    for (order in list) {
+            userRepository.getOrdersByUserId(userId).collect { list: List<Order> ->
+                list.map { order ->
                         orderStateList.value.add(order)
                         totalState.value += order.total
-                    }
                 }
+            }
+        }
+    }
+
+    /**
+     * Stream of immutable states representative of the UI.
+     */
+    private val mealPagingDataFlow: Flow<PagingData<Meal>> = Pager(
+        config = PagingConfig(pageSize = ITEMS_PER_PAGE, enablePlaceholders = false),
+        pagingSourceFactory = { mealRepository.getMealPagingSource() }
+    )
+        .flow
+        // cachedIn allows paging to remain active in the viewModel scope, so even if the UI
+        // showing the paged data goes through lifecycle changes, pagination remains cached and
+        // the UI does not have to start paging from the beginning when it resumes.
+        .cachedIn(viewModelScope)
+
+    fun collectMealPagingDataFlowToStateList() {
+        mealStateList.value.clear()
+        job = viewModelScope.launch {
+            mealPagingDataFlow.collect { pages: PagingData<Meal> ->
+                pages.map { meal -> mealStateList.value.add(meal) }
             }
         }
     }

@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,14 +37,12 @@ fun ShoppingCartScreen(
     val context = LocalContext.current
     val viewModel: MealViewModel = hiltViewModel(context as ComponentActivity)
 
-    var list = viewModel.orderedMealStateList
-
     Column (modifier = Modifier.background(MaterialTheme.colorScheme.surface)
     ){
         TitleText(
             text = stringResource(R.string.shopping_cart) + " - $%.2f".format(viewModel.calcOrderedMealCoast()),
         )
-        if (list.value.isEmpty()) {
+        if (viewModel.orderedMealStateList.value.isEmpty()) {
             CentralText(
                 text = stringResource(R.string.make_choice)
             )
@@ -54,7 +53,7 @@ fun ShoppingCartScreen(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface)
         ) {
 
-            itemsIndexed(list.value) { idx, //row -> MealListItem(row)}
+            itemsIndexed(viewModel.orderedMealStateList.value) { idx, //row -> MealListItem(row)}
                                        meal ->
                 MealCard(meal,
                     onClick = {

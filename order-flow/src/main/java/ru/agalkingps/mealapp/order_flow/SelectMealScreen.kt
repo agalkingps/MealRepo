@@ -11,12 +11,12 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,8 +27,10 @@ fun SelectMealScreen(
     val context = LocalContext.current
     val viewModel: MealViewModel = hiltViewModel(context as ComponentActivity)
 
-    viewModel.collectMealFlowToStateList()
-    var list = viewModel.mealStateList
+    LaunchedEffect(viewModel) {
+        viewModel.collectMealFlowToStateList()
+    }
+
     viewModel.fetchUserById(userId)
 
     Column (modifier = Modifier.background(MaterialTheme.colorScheme.surface)
@@ -41,8 +43,8 @@ fun SelectMealScreen(
             modifier = Modifier.background(MaterialTheme.colorScheme.surface)
         ) {
 
-            itemsIndexed(list.value) { idx,
-                                       meal ->
+            itemsIndexed(viewModel.mealStateList.value) { idx,
+                                                          meal ->
                 MealCard(meal,
                     onClick = {
                         viewModel.toggleMealSelection(idx)

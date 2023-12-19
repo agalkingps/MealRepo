@@ -1,5 +1,6 @@
 package ru.agalkingps.mealapp.repo
 
+import androidx.paging.PagingSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,9 +14,9 @@ class FakeMealRepository  : MealRepositoryInterface {
 
     override fun getAllMeals(): Flow<List<Meal>> = flow {
         val list : MutableList<Meal> = mutableListOf()
-        var idx: Int = 1
+        var idx: Int = provider.minIndex
         var meal = provider.getMealById(idx)
-        while (meal != null){
+        while (meal != null && idx <= provider.maxIndex){
             list.add(meal)
             delay(100L)
             emit(list)
@@ -28,4 +29,8 @@ class FakeMealRepository  : MealRepositoryInterface {
         return provider.getMealById(mealId)
     }
 
+    /**
+     * [PagingSource] for [Meal]
+     */
+    override fun getMealPagingSource() = MealPagingSource()
 }
