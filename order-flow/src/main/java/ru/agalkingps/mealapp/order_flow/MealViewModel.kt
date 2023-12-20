@@ -45,11 +45,15 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     var mealStateList: MutableState<SnapshotStateList<Meal>> =
         mutableStateOf(mutableStateListOf())
     var mealSelectedCount: MutableState<Int> = mutableIntStateOf(0)
+    @SuppressLint("MutableCollectionMutableState")
+    var mealSelectedIds: MutableState<MutableList<Int>> = mutableStateOf(mutableListOf<Int>())
 
     @SuppressLint("MutableCollectionMutableState")
     var orderedMealStateList: MutableState<SnapshotStateList<Meal>> =
         mutableStateOf(mutableStateListOf())
     var orderedMealSelectedCount: MutableState<Int> = mutableIntStateOf(0)
+    @SuppressLint("MutableCollectionMutableState")
+    var orderedMealSelectedIds: MutableState<MutableList<Int>> = mutableStateOf(mutableListOf<Int>())
 
     @SuppressLint("MutableCollectionMutableState")
     var orderStateList: MutableState<SnapshotStateList<Order>> =
@@ -62,6 +66,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     private var job2: Job? = null
 
     fun collectMealFlowToStateList() {
+        job?.cancel()
         mealStateList.value.clear()
         job = viewModelScope.launch {
             mealRepository.getAllMeals().collect { meals: List<Meal> ->
@@ -70,25 +75,22 @@ class MealViewModel @Inject constructor()  : ViewModel() {
         }
     }
 
-    fun toggleMealSelection(index: Int) {
-        val meal: Meal = mealStateList.value[index].copy()
-        if (meal.isSelected) {
-            meal.isSelected = false
+    fun toggleMealSelection(id: Int) {
+        if (mealSelectedIds.value.contains(id)) {
+            mealSelectedIds.value.remove(id)
             mealSelectedCount.value--
         } else {
-            meal.isSelected = true
+            mealSelectedIds.value.add(id)
             mealSelectedCount.value++
         }
-        mealStateList.value[index] = meal
     }
 
     fun putSelectedMealInShoppingCart() {
         for (idx in mealStateList.value.indices) {
             val meal = mealStateList.value[idx]
-            if (meal.isSelected) {
-                toggleMealSelection(idx)
+            if (mealSelectedIds.value.contains(meal.id)) {
+                toggleMealSelection(meal.id)
                 val meal1 = meal.copy()
-                meal1.isSelected = false
                 var found = false
                 loop@ for (idx2 in orderedMealStateList.value.indices) {
                     val meal2 = orderedMealStateList.value[idx2]
@@ -107,32 +109,29 @@ class MealViewModel @Inject constructor()  : ViewModel() {
         }
     }
 
-    fun toggleOrderedMealSelection(index: Int) {
-        val meal: Meal = orderedMealStateList.value[index].copy()
-        if (meal.isSelected) {
-            meal.isSelected = false
+    fun toggleOrderedMealSelection(id: Int) {
+        if (orderedMealSelectedIds.value.contains(id)) {
+            orderedMealSelectedIds.value.remove(id)
             orderedMealSelectedCount.value--
         } else {
-            meal.isSelected = true
+            orderedMealSelectedIds.value.add(id)
             orderedMealSelectedCount.value++
         }
-        orderedMealStateList.value[index] = meal
     }
 
     fun removeSelectedOrderedMeal() {
         val iterator = orderedMealStateList.value.iterator()
         for (meal in iterator) {
-            if (meal.isSelected) {
-                if (meal.count == 1) {
-                    iterator.remove()
-                }
+            if (orderedMealSelectedIds.value.contains(meal.id) && meal.count == 1) {
+                iterator.remove()
+                orderedMealSelectedIds.value.remove(meal.id)
             }
         }
         for (idx in orderedMealStateList.value.indices) {
             val meal = orderedMealStateList.value[idx]
-            if (meal.isSelected && meal.count > 1) {
-                meal.isSelected = false
+            if (orderedMealSelectedIds.value.contains(meal.id) && meal.count > 1) {
                 meal.count--
+                orderedMealSelectedIds.value.remove(meal.id)
                 orderedMealStateList.value[idx] = meal
             }
         }
@@ -165,9 +164,11 @@ class MealViewModel @Inject constructor()  : ViewModel() {
 
             iterator = orderedMealStateList.value.iterator()
             for (meal in iterator) {
+                orderedMealSelectedIds.value.remove(meal.id)
                 iterator.remove()
             }
         }
+        orderedMealSelectedCount.value = 0
     }
 
     fun fetchUserById(userId: Int) {

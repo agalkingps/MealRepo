@@ -33,6 +33,7 @@ import ru.agalkingps.mealapp.data.model.Meal
 @Composable
 fun MealCard(
     meal: Meal,
+    selected: Boolean,
     onClick: () -> Unit,
 ) {
     Card(
@@ -67,7 +68,7 @@ fun MealCard(
                     style = MaterialTheme.typography.headlineSmall
                 )
             }
-            if (meal.isSelected) {
+            if (selected/*meal.isSelected*/) {
                 Icon(
                     modifier = Modifier
                         .weight(10f)

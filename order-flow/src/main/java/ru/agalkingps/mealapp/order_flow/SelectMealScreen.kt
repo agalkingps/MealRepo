@@ -46,8 +46,9 @@ fun SelectMealScreen(
             itemsIndexed(viewModel.mealStateList.value) { idx,
                                                           meal ->
                 MealCard(meal,
+                    viewModel.mealSelectedIds.value.contains(meal.id),
                     onClick = {
-                        viewModel.toggleMealSelection(idx)
+                        viewModel.toggleMealSelection(meal.id)
                     }
                 )
             }

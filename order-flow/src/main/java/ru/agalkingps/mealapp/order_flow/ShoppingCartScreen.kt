@@ -56,8 +56,9 @@ fun ShoppingCartScreen(
             itemsIndexed(viewModel.orderedMealStateList.value) { idx, //row -> MealListItem(row)}
                                        meal ->
                 MealCard(meal,
+                    viewModel.orderedMealSelectedIds.value.contains(meal.id),
                     onClick = {
-                        viewModel.toggleOrderedMealSelection(idx)
+                        viewModel.toggleOrderedMealSelection(meal.id)
                     }
                 )
             }
