@@ -1,5 +1,6 @@
 package ru.agalkingps.mealapp.repo
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.delay
@@ -16,9 +17,10 @@ class MealPagingSource : PagingSource<Int, Meal>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult.Page<Int, Meal> {
         // If params.key is null, it is the first load, so we start loading with STARTING_KEY
         val startKey = params.key ?: provider.minIndex
-        val endKey = min(startKey + params.loadSize, provider.maxIndex)
+        val endKey = min(startKey + params.loadSize - 1, provider.maxIndex)
         // We fetch as many articles as hinted to by params.loadSize
-        val range = startKey.until(endKey)
+        val range = startKey.rangeTo(endKey)
+        Log.d("MealPagingSource", "$range")
 
         // Simulate a delay for loads after the initial load
         if (startKey != provider.minIndex) delay(LOAD_DELAY_MILLIS)
@@ -39,13 +41,9 @@ class MealPagingSource : PagingSource<Int, Meal>() {
                     else -> prevKey
                 }
             },
-            nextKey = when (endKey) {
+            nextKey = when (range.last) {
                 provider.maxIndex -> null
-                else -> when (val nextKey =
-                    ensureValidNextKey(key = range.last + 1 + params.loadSize)){
-                    provider.maxIndex -> null
-                    else -> nextKey
-                }
+                else -> range.last + 1
             }
         )
     }

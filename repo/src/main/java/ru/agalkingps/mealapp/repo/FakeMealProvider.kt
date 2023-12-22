@@ -1,6 +1,7 @@
 package ru.agalkingps.mealapp.repo
 
 import ru.agalkingps.mealapp.data.model.Meal
+import java.lang.Thread.sleep
 
 private val mealList: List<Meal> = listOf(
     Meal(
@@ -119,9 +120,30 @@ private val mealList: List<Meal> = listOf(
         16,
         "Brunch and Stakes",
         "Very awesome list item has very awesome subtitle. This is bit long",
-        10.0,
+        8.0,
         R.drawable.food16
-    )
+    ),
+    Meal(
+        17,
+        "Fresh Pasta with Bolognese Parmesan Cheese",
+     "Very awesome list item has very awesome subtitle. This is bit long",
+        4.0,
+        R.drawable.fresh_pasta
+    ),
+    Meal(
+        18,
+        "Shaurma Sandwich",
+        "Very awesome list item has very awesome subtitle. This is bit long",
+        3.0,
+        R.drawable.shaurma_sandwich
+    ),
+    Meal(
+        19,
+        "Meat Sauce Soup with Greens Potatoes",
+        "Very awesome list item has very awesome subtitle. This is bit long",
+        3.0,
+        R.drawable.meat_sauce_soup
+    ),
 )
 
 class FakeMealProvider {

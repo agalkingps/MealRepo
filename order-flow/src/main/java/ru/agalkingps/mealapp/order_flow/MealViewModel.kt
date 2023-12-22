@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 const val tag = "MealFlowLog"
 
-private const val ITEMS_PER_PAGE = 10
+private const val ITEMS_PER_PAGE = 4
 
 @HiltViewModel
 class MealViewModel @Inject constructor()  : ViewModel() {
@@ -41,9 +41,6 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     @Inject
     lateinit var mealRepository: MealRepositoryInterface
 
-    @SuppressLint("MutableCollectionMutableState")
-    var mealStateList: MutableState<SnapshotStateList<Meal>> =
-        mutableStateOf(mutableStateListOf())
     var mealSelectedCount: MutableState<Int> = mutableIntStateOf(0)
     @SuppressLint("MutableCollectionMutableState")
     var mealSelectedIds: MutableState<MutableList<Int>> = mutableStateOf(mutableListOf<Int>())
@@ -65,17 +62,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     private var job: Job? = null
     private var job2: Job? = null
 
-    fun collectMealFlowToStateList() {
-        job?.cancel()
-        mealStateList.value.clear()
-        job = viewModelScope.launch {
-            mealRepository.getAllMeals().collect { meals: List<Meal> ->
-                meals.map { meal -> mealStateList.value.add(meal) }
-            }
-        }
-    }
-
-    fun toggleMealSelection(id: Int) {
+     fun toggleMealSelection(id: Int) {
         if (mealSelectedIds.value.contains(id)) {
             mealSelectedIds.value.remove(id)
             mealSelectedCount.value--
@@ -86,11 +73,9 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     }
 
     fun putSelectedMealInShoppingCart() {
-        for (idx in mealStateList.value.indices) {
-            val meal = mealStateList.value[idx]
-            if (mealSelectedIds.value.contains(meal.id)) {
-                toggleMealSelection(meal.id)
-                val meal1 = meal.copy()
+        for (idx in mealSelectedIds.value) {
+            val meal1 = mealRepository.getMealById(mealSelectedIds.value[idx])
+            if (meal1 != null) {
                 var found = false
                 loop@ for (idx2 in orderedMealStateList.value.indices) {
                     val meal2 = orderedMealStateList.value[idx2]
@@ -107,6 +92,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
                 }
             }
         }
+        mealSelectedIds.value.clear()
     }
 
     fun toggleOrderedMealSelection(id: Int) {
@@ -193,7 +179,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
     /**
      * Stream of immutable states representative of the UI.
      */
-    private val mealPagingDataFlow: Flow<PagingData<Meal>> = Pager(
+    val mealPagingDataFlow: Flow<PagingData<Meal>> = Pager(
         config = PagingConfig(pageSize = ITEMS_PER_PAGE, enablePlaceholders = false),
         pagingSourceFactory = { mealRepository.getMealPagingSource() }
     )
@@ -202,14 +188,5 @@ class MealViewModel @Inject constructor()  : ViewModel() {
         // showing the paged data goes through lifecycle changes, pagination remains cached and
         // the UI does not have to start paging from the beginning when it resumes.
         .cachedIn(viewModelScope)
-
-    fun collectMealPagingDataFlowToStateList() {
-        mealStateList.value.clear()
-        job = viewModelScope.launch {
-            mealPagingDataFlow.collect { pages: PagingData<Meal> ->
-                pages.map { meal -> mealStateList.value.add(meal) }
-            }
-        }
-    }
 
 }

@@ -1,12 +1,13 @@
 package ru.agalkingps.mealapp.repo
 
+import android.os.SystemClock.sleep
 import androidx.paging.PagingSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.agalkingps.mealapp.data.model.Meal
-import ru.agalkingps.mealapp.repo.FakeMealProvider
 import ru.agalkingps.mealapp.data.MealRepositoryInterface
+
 
 class FakeMealRepository  : MealRepositoryInterface {
 
