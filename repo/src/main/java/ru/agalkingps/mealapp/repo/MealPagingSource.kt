@@ -34,12 +34,7 @@ class MealPagingSource : PagingSource<Int, Meal>() {
                     0) },
             prevKey = when (startKey) {
                 provider.minIndex -> null
-                else -> when (val prevKey =
-                    ensureValidPrevKey(key = range.first - params.loadSize)) {
-                    // We're at the start, there's nothing more to load
-                    provider.minIndex -> null
-                    else -> prevKey
-                }
+                else -> ensureValidPrevKey(key = range.first - params.loadSize)
             },
             nextKey = when (range.last) {
                 provider.maxIndex -> null
@@ -60,5 +55,5 @@ class MealPagingSource : PagingSource<Int, Meal>() {
     // Makes sure the paging key is never less than [STARTING_KEY]
     private fun ensureValidPrevKey(key: Int) = max(provider.minIndex, key)
     // Makes sure the paging key is never less than [STARTING_KEY]
-    private fun ensureValidNextKey(key: Int) = min(provider.maxIndex, key)
+
 }

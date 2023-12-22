@@ -180,7 +180,12 @@ class MealViewModel @Inject constructor()  : ViewModel() {
      * Stream of immutable states representative of the UI.
      */
     val mealPagingDataFlow: Flow<PagingData<Meal>> = Pager(
-        config = PagingConfig(pageSize = ITEMS_PER_PAGE, enablePlaceholders = false),
+        config = PagingConfig(
+            pageSize = ITEMS_PER_PAGE,
+            initialLoadSize = ITEMS_PER_PAGE * 2,
+            maxSize = ITEMS_PER_PAGE*4,
+            enablePlaceholders = false
+        ),
         pagingSourceFactory = { mealRepository.getMealPagingSource() }
     )
         .flow
