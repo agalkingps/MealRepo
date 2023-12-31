@@ -70,20 +70,17 @@ fun LoginScreen(
                 .fillMaxWidth(),
             shape = RoundedCornerShape(50),
             onClick = {
-                viewModel.loginUser(viewModel.email)
+                val user = viewModel.loginUser(viewModel.email)
+                if ( user != null && user.password == viewModel.password) {
+                    onLoginDone(user.id)
+                }
+                else {
+                    Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
+                }
             },
             enabled = !viewModel.verifyEmail() && !viewModel.verifyPassword()
         ) {
             Text(text = stringResource(R.string.login))
-        }
-        if (viewModel.loginCompletion) {
-            viewModel.loginCompletion = false
-            if (viewModel.currentUser == null || viewModel.currentUser!!.password != viewModel.password) {
-                Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
-            }
-            else{
-                onLoginDone(viewModel.currentUser!!.id)
-            }
         }
     }
 }

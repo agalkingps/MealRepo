@@ -16,6 +16,6 @@
     <string name="email">Email</string>
     <string name="type_email">Type email</string>
     <string name="can_not_be_empty">Name can not be empty</string>
-    <string name="no_account">This account is not found</string>
+    <string name="no_account">Your account hasn’t been created yet?</string>
     <string name="title_activity_login">LoginActivity</string>
 </resources>

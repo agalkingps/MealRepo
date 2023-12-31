@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
 import ru.agalkingps.mealapp.data.UserRepositoryInterface
 import ru.agalkingps.mealapp.data.model.User
 import java.util.regex.Matcher
@@ -30,11 +32,6 @@ class LoginViewModel @Inject constructor()  : ViewModel() {
     var isFirstNameError by mutableStateOf(false)
     var lastName by mutableStateOf("")
     var isLastNameError by mutableStateOf(false)
-
-    var loginCompletion by mutableStateOf(false)
-    var signInCompletion  by mutableStateOf(false)
-
-    var currentUser : User? = null
 
     fun verifyPassword(): Boolean {
         return (password.length < 8)
@@ -61,35 +58,45 @@ class LoginViewModel @Inject constructor()  : ViewModel() {
         return (lastName.isEmpty())
     }
 
-    fun loginUser(email: String) {
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
-                currentUser = userRepository.getUserByEmail(email)
-                withContext(Dispatchers.Main) {
-                    loginCompletion = true
-                }
+    fun loginUser(email: String) : User? {
+        var user : User? = null
+        runBlocking {
+            try {
+                val deferred = async { userRepository.getUserByEmail(email) }
+                user = deferred.await()
             }
-        } catch (e: Exception) {
-            currentUser = null
-            e.printStackTrace()
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+        return user;
     }
 
-    fun signInNewUser() {
+    fun signInNewUser() : User? {
         var user : User? = null
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
-                var user : User? = userRepository.getUserByEmail(email)
+        runBlocking {
+            try {
+                val deferred = async { userRepository.getUserByEmail(email) }
+                user = deferred.await()
                 if (user == null) {
                     user = User(0, firstName, lastName, email, password, 0.0, null)
-                    val newRowId: Long = userRepository.addUser(user!!)
-                    currentUser = if (newRowId.toInt() == -1) null else user
+                    val deferred2 = async { userRepository.addUser(user!!) }
+                    val newRowId: Long = deferred2.await()
+                    if (newRowId.toInt() == -1) {
+                        user = null
+                    }
+                    else {
+                        user!!.id = newRowId.toInt()
+                    }
                 }
-                signInCompletion = true
+                else {
+                    user = null
+                }
+            } catch (e: Exception) {
+                user = null
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            currentUser = null
-            e.printStackTrace()
         }
+        return user;
     }
 }

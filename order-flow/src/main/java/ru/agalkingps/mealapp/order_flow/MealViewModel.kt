@@ -17,8 +17,10 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.agalkingps.mealapp.data.MealRepositoryInterface
 import ru.agalkingps.mealapp.data.UserRepositoryInterface
 import ru.agalkingps.mealapp.data.model.Meal
@@ -74,7 +76,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
 
     fun putSelectedMealInShoppingCart() {
         for (idx in mealSelectedIds.value) {
-            val meal1 = mealRepository.getMealById(mealSelectedIds.value[idx])
+            val meal1 = mealRepository.getMealById(idx)
             if (meal1 != null) {
                 var found = false
                 loop@ for (idx2 in orderedMealStateList.value.indices) {

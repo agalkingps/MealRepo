@@ -26,7 +26,7 @@ import ru.agalkingps.mealapp.data.UserRepositoryInterface
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
-    onSignInDone: () -> Unit
+    onSignInDone: (Int) -> Unit
 ) {
     val context = LocalContext.current
     val viewModel: LoginViewModel = hiltViewModel(context as ComponentActivity)
@@ -63,25 +63,19 @@ fun SignInScreen(
                 .fillMaxWidth(),
             shape = RoundedCornerShape(50),
             onClick = {
-                viewModel.signInNewUser()
+                val user = viewModel.signInNewUser()
+                if (user != null) {
+                    onSignInDone(user.id)
+                }
+                else {
+                    Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
+                }
             },
             enabled = !viewModel.verifyFirstName() && !viewModel.verifyLastName() &&
                 !viewModel.verifyEmail() && !viewModel.verifyPassword() && !viewModel.confirmPassword()
         ) {
             Text(text = stringResource(R.string.sign_in))
         }
-
-        if (viewModel.signInCompletion) {
-            viewModel.signInCompletion = false
-            if (viewModel.currentUser == null) {
-                Toast.makeText(context, invalidCredentials, Toast.LENGTH_LONG).show()
-            }
-            else{
-                onSignInDone()
-            }
-        }
-
-
     }
 }
 

@@ -29,6 +29,7 @@ fun NavGraphBuilder.loginGraph(navController: NavController, context : Context) 
             SignInScreen(
                 onSignInDone = {
                     context.startActivity(Intent(context, OrderActivity::class.java)
+                        .putExtra("UserId", it)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             )

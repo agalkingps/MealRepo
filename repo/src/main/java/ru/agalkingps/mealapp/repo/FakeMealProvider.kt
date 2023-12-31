@@ -144,6 +144,20 @@ private val mealList: List<Meal> = listOf(
         3.0,
         R.drawable.meat_sauce_soup
     ),
+    Meal(
+        20,
+        "Roasted Sea Bream Fish",
+        "Very awesome list item has very awesome subtitle. This is bit long",
+        4.5,
+        R.drawable.reasted_sea_bream_fish
+    ),
+    Meal(
+        21,
+        "Barbecued Salmon, Fried Potatoes, Vegetables",
+        "Very awesome list item has very awesome subtitle. This is bit long",
+        5.0,
+        R.drawable.barbecued_salmon
+    ),
 )
 
 class FakeMealProvider {
