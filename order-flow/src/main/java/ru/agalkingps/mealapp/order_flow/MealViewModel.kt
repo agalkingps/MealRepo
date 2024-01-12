@@ -78,17 +78,15 @@ class MealViewModel @Inject constructor()  : ViewModel() {
         for (idx in mealSelectedIds.value) {
             val meal1 = mealRepository.getMealById(idx)
             if (meal1 != null) {
-                var found = false
-                loop@ for (idx2 in orderedMealStateList.value.indices) {
-                    val meal2 = orderedMealStateList.value[idx2]
-                    if (meal2.id == meal1.id) {
-                        meal1.count = meal2.count + 1
-                        orderedMealStateList.value[idx2] = meal1
-                        found = true
-                        break@loop
-                    }
+                var idx2 = orderedMealStateList.value.indexOfFirst{
+                    it.id == meal1.id
                 }
-                if (!found) {
+                if (idx2 >= 0) {
+                    val meal2 = orderedMealStateList.value[idx2]
+                    meal1.count = meal2.count + 1
+                    orderedMealStateList.value[idx2] = meal1
+                }
+                else {
                     meal1.count = 1
                     orderedMealStateList.value.add(meal1)
                 }
