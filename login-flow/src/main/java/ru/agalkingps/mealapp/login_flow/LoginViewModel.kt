@@ -4,14 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import ru.agalkingps.mealapp.data.UserRepositoryInterface
+import ru.agalkingps.mealapp.data.UserRepository
 import ru.agalkingps.mealapp.data.model.User
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -20,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor()  : ViewModel() {
 
-    @Inject lateinit var userRepository: UserRepositoryInterface
+    @Inject lateinit var userRepository: UserRepository
 
     var password by mutableStateOf("")
     var isPasswordError by mutableStateOf(false)

@@ -10,7 +10,7 @@ import kotlin.math.max
 
 private const val LOAD_DELAY_MILLIS = 3_000L
 
-class MealPagingSource : PagingSource<Int, Meal>() {
+class FakeMealPagingSource : PagingSource<Int, Meal>() {
 
     private var provider = FakeMealProvider()
 
@@ -20,7 +20,7 @@ class MealPagingSource : PagingSource<Int, Meal>() {
         val endKey = min(startKey + params.loadSize - 1, provider.maxIndex)
         // We fetch as many articles as hinted to by params.loadSize
         val range = startKey.rangeTo(endKey)
-        Log.d("MealPagingSource", "$range")
+        Log.d("FakeMealPagingSource", "$range")
 
         // Simulate a delay for loads after the initial load
         if (startKey != provider.minIndex) delay(LOAD_DELAY_MILLIS)
@@ -54,6 +54,4 @@ class MealPagingSource : PagingSource<Int, Meal>() {
 
     // Makes sure the paging key is never less than [STARTING_KEY]
     private fun ensureValidPrevKey(key: Int) = max(provider.minIndex, key)
-    // Makes sure the paging key is never less than [STARTING_KEY]
-
 }

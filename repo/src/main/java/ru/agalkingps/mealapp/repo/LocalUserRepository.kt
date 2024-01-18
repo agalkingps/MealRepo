@@ -4,12 +4,12 @@ import androidx.room.Transaction
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import ru.agalkingps.mealapp.data.UserRepositoryInterface
+import ru.agalkingps.mealapp.data.UserRepository
 import ru.agalkingps.mealapp.data.model.Order
 import ru.agalkingps.mealapp.data.model.User
 import ru.agalkingps.mealapp.repo.dao.UserDao
 
-class UserRepository(private val userDao: UserDao) : UserRepositoryInterface {
+class LocalUserRepository(private val userDao: UserDao) : UserRepository {
 
     override suspend fun addUser(user: User) : Long {
         return userDao.addUser(user)

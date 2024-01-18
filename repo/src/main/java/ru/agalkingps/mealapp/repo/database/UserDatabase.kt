@@ -10,9 +10,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import ru.agalkingps.mealapp.data.UserRepositoryInterface
+import ru.agalkingps.mealapp.data.UserRepository
 import ru.agalkingps.mealapp.data.converters.OrderedMealListTypeConverter
-import ru.agalkingps.mealapp.repo.UserRepository
+import ru.agalkingps.mealapp.repo.LocalUserRepository
 
 
 // UserDatabase represents database and contains the database holder and server the main access point for the underlying connection to your app's persisted, relational data.
@@ -48,9 +48,9 @@ abstract class UserDatabase: RoomDatabase() {
             }
         }
 
-        fun getRepository(appContext: Context): UserRepositoryInterface {
+        fun getRepository(appContext: Context): UserRepository {
             val userDao = UserDatabase.getDatabase(appContext).userDao()
-            return UserRepository(userDao)
+            return LocalUserRepository(userDao)
         }
 
         fun close() {

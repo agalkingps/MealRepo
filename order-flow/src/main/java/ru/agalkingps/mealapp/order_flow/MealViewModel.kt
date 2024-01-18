@@ -21,8 +21,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import ru.agalkingps.mealapp.data.MealRepositoryInterface
-import ru.agalkingps.mealapp.data.UserRepositoryInterface
+import ru.agalkingps.mealapp.data.MealRepository
+import ru.agalkingps.mealapp.data.UserRepository
 import ru.agalkingps.mealapp.data.model.Meal
 import ru.agalkingps.mealapp.data.model.Order
 import ru.agalkingps.mealapp.data.model.OrderedMeal
@@ -38,10 +38,10 @@ private const val ITEMS_PER_PAGE = 4
 class MealViewModel @Inject constructor()  : ViewModel() {
 
     @Inject
-    lateinit var userRepository: UserRepositoryInterface
+    lateinit var userRepository: UserRepository
 
     @Inject
-    lateinit var mealRepository: MealRepositoryInterface
+    lateinit var mealRepository: MealRepository
 
     var mealSelectedCount: MutableState<Int> = mutableIntStateOf(0)
     @SuppressLint("MutableCollectionMutableState")
@@ -78,7 +78,7 @@ class MealViewModel @Inject constructor()  : ViewModel() {
         for (idx in mealSelectedIds.value) {
             val meal1 = mealRepository.getMealById(idx)
             if (meal1 != null) {
-                var idx2 = orderedMealStateList.value.indexOfFirst{
+                var idx2 = orderedMealStateList.value.indexOfFirst {
                     it.id == meal1.id
                 }
                 if (idx2 >= 0) {

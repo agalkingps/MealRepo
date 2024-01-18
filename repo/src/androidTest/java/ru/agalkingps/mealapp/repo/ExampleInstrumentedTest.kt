@@ -8,7 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import ru.agalkingps.mealapp.data.MealRepositoryInterface
+import ru.agalkingps.mealapp.data.MealRepository
 import ru.agalkingps.mealapp.data.model.Meal
 import ru.agalkingps.mealapp.repo.database.FakeMealDatabase
 
@@ -25,7 +25,7 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("ru.agalkingps.mealapp.repo.test", appContext.packageName)
 
-        val repo: MealRepositoryInterface = FakeMealDatabase.getRepository(appContext)
+        val repo: MealRepository = FakeMealDatabase.getRepository(appContext)
 
         runTest {
             val mealList = repo.getAllMeals().collect {

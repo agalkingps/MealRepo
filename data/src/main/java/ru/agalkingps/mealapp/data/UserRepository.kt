@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.agalkingps.mealapp.data.model.Order
 import ru.agalkingps.mealapp.data.model.User
 
-interface UserRepositoryInterface {
+interface UserRepository {
     suspend fun addUser(user: User) : Long
     suspend fun updateUser(user: User) : Int
     suspend fun deleteUser(user: User) : Int

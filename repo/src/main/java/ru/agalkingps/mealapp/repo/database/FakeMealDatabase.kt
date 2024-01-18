@@ -1,15 +1,15 @@
 package ru.agalkingps.mealapp.repo.database
 
 import android.content.Context
-import ru.agalkingps.mealapp.data.MealRepositoryInterface
+import ru.agalkingps.mealapp.data.MealRepository
 import ru.agalkingps.mealapp.repo.FakeMealRepository
 
 class FakeMealDatabase {
     companion object {
         @Volatile
-        private var INSTANCE: MealRepositoryInterface? = null
+        private var INSTANCE: MealRepository? = null
 
-        fun getRepository(appContext : Context): MealRepositoryInterface{
+        fun getRepository(appContext : Context): MealRepository{
             val tempInstance = INSTANCE
 
             if (tempInstance != null) {
