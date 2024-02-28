@@ -85,9 +85,6 @@ class LoginViewModel @Inject constructor()  : ViewModel() {
                         user!!.id = newRowId.toInt()
                     }
                 }
-                else {
-                    user = null
-                }
             } catch (e: Exception) {
                 user = null
                 e.printStackTrace()

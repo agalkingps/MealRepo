@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.coroutines.android)
     // Room
     implementation(libs.bundles.room)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.core.ktx)
 //    kapt(libs.room.compiler)
     ksp(libs.room.compiler)
     implementation(libs.gson)

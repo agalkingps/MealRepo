@@ -54,27 +54,6 @@ class LocalUserRepository(private val userDao: UserDao) : UserRepository {
             return 0
         return userDao.addOrder(order)
     }
-
-
-    override fun justTest() : Unit {
-        GlobalScope.launch() {
-            deleteAllUsers()
-            val user: User = User(0, "andrey", "galkin", "andrey@email.ru")
-            try{
-                val id : Long = addUser(user)
-                var i: Long = id
-            }
-            catch(exp : Exception) {
-                val e = exp
-            } finally {
-                // optional finally block
-                val user2: User? = getUserByEmail(user.email)
-                var name: String? = user2?.firstName
-                name += " "
-            }
-        }
-        Thread.sleep(10_000)
-    }
 }
 
 

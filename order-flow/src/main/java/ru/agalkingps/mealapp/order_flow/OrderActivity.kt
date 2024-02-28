@@ -14,12 +14,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.agalkingps.mealapp.order_flow.ui.theme.MealAppTheme
@@ -44,12 +46,7 @@ class OrderActivity : ComponentActivity() {
     @Composable
     fun MakeGUI(userId: Int) {
         val viewModel: MealViewModel = hiltViewModel()
-
         val navController: NavHostController = rememberNavController()
-        val currentRoute = navController
-            .currentBackStackEntryFlow
-            .collectAsState(initial = navController.currentBackStackEntry)
-
         val buttonsVisible = remember { mutableStateOf(true) }
 
         Scaffold(

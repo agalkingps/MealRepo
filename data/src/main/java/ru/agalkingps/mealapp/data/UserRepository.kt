@@ -16,6 +16,4 @@ interface UserRepository {
     suspend fun getOrdersByUserId(userId: Int): Flow<List<Order>>
 
     suspend fun addOrder(user: User, order: Order) : Long
-
-    fun justTest() : Unit
 }

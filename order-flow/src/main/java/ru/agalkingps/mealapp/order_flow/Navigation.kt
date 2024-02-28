@@ -7,11 +7,13 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.SetMeal
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 sealed class Destinations(
     val route: String,
@@ -44,8 +46,10 @@ fun NavigationGraph(
     navController: NavHostController,
     userId: Int
 ) {
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route ?: Destinations.SelectMealScreen.route
 
-    NavHost(navController, startDestination = Destinations.SelectMealScreen.route) {
+    NavHost(navController, startDestination = currentRoute) {
         composable(Destinations.ProfileScreen.route) {
             ProfileScreen(
                 userId)
